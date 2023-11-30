@@ -1,6 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/latex,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=latex,macos
 
+# generated files
+vutinfth.cls
+vutinfth.pdf
+
+# hypdoc files
+*.hd
+
 ### LaTeX ###
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -120,7 +127,7 @@ acs-*.bib
 *.sls
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
+*.ist
 
 # gnuplot
 *.gnuplot
