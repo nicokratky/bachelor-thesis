@@ -22,6 +22,11 @@
 \usepackage{todonotes} % Provides tooltip-like todo notes.
 \usepackage{hyperref}  % Enables hyperlinking in the electronic document version. This package has to be included second to last.
 \usepackage[noabbrev,nameinlink]{cleveref}
+
+\usepackage{silence} % Silence compilation warnings
+\WarningFilter{glossaries}{Overriding \printglossary}
+\WarningFilter{glossaries}{Overriding `theglossary'}
+
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists of acronyms. This package has to be included last.
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
