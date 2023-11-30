@@ -1,0 +1,43 @@
+\chapter{Background}
+\label{ch:background}
+\section{Elasticity in Cloud Computing}
+
+Elasticity is one of the core concepts that solves a big problem of cloud computing: providing limited resources for potentially unlimited use. The solution is to scale workloads up and down as needed, to claim resources when bigger load is experienced and release resources when they are not needed, therefore making them available to other workloads.
+
+The term elasticity in computing is conceptually similiar to the term in physics. Wikipedia, for example, defines elasticity as follows: ``In physics and materials science, elasticity is the ability of a body to resist a distorting influence and to return to its original size and shape when that influence or force is removed. Solid objects will deform when adequate loads are applied to them; if the material is elastic, the object will return to its initial shape and size after removal.''\footnote{\url{https://en.wikipedia.org/wiki/Elasticity_(physics)}}
+
+% main properties: resource elasticity, cost elasticity, quality elasticity
+%   these properties are interdependent
+
+The formular - which takes a more mathematical approach - of elasticity can be defined as \[ e(Y, X) = \diff{Y}{X} \frac{X}{Y}, \] where \(e(Y, X)\) is the elasticity of \(Y\) with respect to \(X\) \cite{dustdarPrinciplesElasticProcesses2011}.
+
+To illustrate this imagine an application that serves some content to its customers. These customers typically interact with the application during the day. This means that the application experiences significantly less load during the night. Once people wake up in the morning the load rises until it peaks in the afternoon. Then the load falls again when people go to sleep in the evening. Using this example it can be seen in \cref{fig:elasticity-application-no-scaling} that during the night the resources of the application are overprovisioned and during the day the resoures are underprovisioned.
+
+If the concept of elasticity is applied to this example, resources can be released during the night (so called \textit{scale-in}) and more resources can be claimed as they are needed during the day (so called \textit{scale-out}). This is illustrated in \cref{fig:elasticity-application-scaling}.
+
+\begin{figure}
+    \centering
+    \input{figures/application-no-scaling.pgf}
+    \caption{Resource demand and supply for a website during a typical day.}
+    \label{fig:elasticity-application-no-scaling}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/application-scaling.pgf}
+    \caption{Resource demand and supply for a website during a typical day.}
+    \label{fig:elasticity-application-scaling}
+\end{figure}
+
+Elasticity has multiple properties which are interdependent: resource elasticity, cost elasticity and quality elasticity \cite{dustdarPrinciplesElasticProcesses2011}. These properties are discussed in the following sections.
+
+\subsection{Resource Elasticity}
+
+\subsection{Cost Elasticity}
+
+\subsection{Quality Elasticity}
+
+\section{Service Level Objectives}
+
+\section{Polaris Framework}
+
