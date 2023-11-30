@@ -29,9 +29,9 @@
 
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists of acronyms. This package has to be included last.
 
-% Define convenience functions to use the author name and the thesis title in the PDF document properties.
-\newcommand{\authorname}{Forename Surname} % The author name without titles.
-\newcommand{\thesistitle}{Title of the Thesis} % The title of the thesis. The English version should be used, if it exists.
+\newcommand{\authorname}{Nico Kratky}
+\newcommand{\thesistitle}{Enabling k8ssandra for Diagonal Elasticity Using the Polaris SLO Framework}
+\newcommand{\gerthesistitle}{Diagonale Elastizität für k8ssandra mithilfe des Polaris SLO Frameworks}
 
 % Set PDF document properties
 \hypersetup{
@@ -56,52 +56,27 @@
 % Set persons with 4 arguments:
 %  {title before name}{name}{title after name}{gender}
 %  where both titles are optional (i.e. can be given as empty brackets {}).
-\setauthor{Pretitle}{\authorname}{Posttitle}{female}
-\setadvisor{Pretitle}{Forename Surname}{Posttitle}{male}
+\setauthor{}{\authorname}{}{male}
+\setadvisor{Assistant Prof. Dipl.-Ing. Dr.techn.}{Stefan Nastic}{BSc}{male}
 
 % For bachelor and master theses:
-\setfirstassistant{Pretitle}{Forename Surname}{Posttitle}{male}
-\setsecondassistant{Pretitle}{Forename Surname}{Posttitle}{male}
-\setthirdassistant{Pretitle}{Forename Surname}{Posttitle}{male}
-
-% For dissertations:
-\setfirstreviewer{Pretitle}{Forename Surname}{Posttitle}{male}
-\setsecondreviewer{Pretitle}{Forename Surname}{Posttitle}{male}
-
-% For dissertations at the PhD School and optionally for dissertations:
-\setsecondadvisor{Pretitle}{Forename Surname}{Posttitle}{male} % Comment to remove.
+\setfirstassistant{Projektass. Dipl.-Ing.}{Thomas Werner Pusztai}{}{male}
 
 % Required data.
-\setregnumber{0123456}
-\setdate{01}{01}{2001} % Set date with 3 arguments: {day}{month}{year}.
-\settitle{\thesistitle}{Titel der Arbeit} % Sets English and German version of the title (both can be English or German). If your title contains commas, enclose it with additional curvy brackets (i.e., {{your title}}) or define it as a macro as done with \thesistitle.
-\setsubtitle{Optional Subtitle of the Thesis}{Optionaler Untertitel der Arbeit} % Sets English and German version of the subtitle (both can be English or German).
+\setregnumber{11909858}
+\setdate{01}{01}{2024} % Set date with 3 arguments: {day}{month}{year}.
+\settitle{\thesistitle}{\thesistitle} % Sets English and German version of the title (both can be English or German). If your title contains commas, enclose it with additional curvy brackets (i.e., {{your title}}) or define it as a macro as done with \thesistitle.
+\setsubtitle{}{} % Sets English and German version of the subtitle (both can be English or German).
 
 % Select the thesis type: bachelor / master / doctor.
-% Bachelor:
 \setthesis{bachelor}
-%
-% Master:
-%\setthesis{master}
-%\setmasterdegree{dipl.} % dipl. / rer.nat. / rer.soc.oec. / master
-%
-% Doctor:
-%\setthesis{doctor}
-%\setdoctordegree{rer.soc.oec.}% rer.nat. / techn. / rer.soc.oec.
 
-% For bachelor and master:
-\setcurriculum{Media Informatics and Visual Computing}{Medieninformatik und Visual Computing} % Sets the English and German name of the curriculum.
-
-% Optional reviewer data:
-\setfirstreviewerdata{Affiliation, Country}
-\setsecondreviewerdata{Affiliation, Country}
-
+% Set english and german name of curriculum
+\setcurriculum{Software \& Information Engineering}{Software \& Information Engineering}
 
 \begin{document}
 
 \frontmatter % Switches to roman numbering.
-% The structure of the thesis has to conform to the guidelines at
-%  https://informatics.tuwien.ac.at/study-services
 
 \addtitlepage{naustrian} % German title page.
 \addtitlepage{english} % English title page.
