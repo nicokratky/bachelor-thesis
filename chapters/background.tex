@@ -33,9 +33,19 @@ Elasticity has multiple properties which are interdependent: resource elasticity
 
 \subsection{Resource Elasticity}
 
+The resource dimension of elasticity is mistakenly often used synonymously with elasticity. Meanwhile, resource elasticity is defined as the degree to which a system is able to adapt to workload changes by claiming and releasing resources autonomously, such that the resource supply matches the current demand as closely as possible \cite{herbstElasticityCloudComputing2013}. Another way to think of this is ``on the fly'' adaptions to load variations \cite{al-dhuraibiElasticityCloudComputing2018}.
+
+What makes this definition easily mistaken, is that it solely considers the aquired resources and not the consequently incurred costs or changing quality.
+
 \subsection{Cost Elasticity}
 
+Cost elasticity uses cost as its main factor for elasticity decisions. One of the most popular models that build upon cost elasticity is \textit{utility computing}, also known as the \textit{pay-as-you-go} pricing model.
+
+Amazon Web Services uses this elasticity dimension in their EC2 Spot Instance\footnote{\url{https://aws.amazon.com/ec2/spot/}}. AWS provides its unused compute capacity at a large discount to its customers. But because these capacities are volatile, the prices are not fixed but are provided through a bidding process. The potential customer tells AWS their maximum price they are willing to pay. The customer can then run their instances as long as their bidding price is smaller than AWS's Spot Instance price.
+
 \subsection{Quality Elasticity}
+
+Similiar to the already discussed dimensions, quality elasticity is defined as letting software services adapt their mode of operastion to current operating conditions by providing results of varying output quality \cite{larssonQualityElasticityImprovedResource2019}. This means that when resource supply is low, the output quality also may be low. Likewise, if resource supply is sufficient, the output quality will also be high.
 
 \section{Service Level Objectives}
 
