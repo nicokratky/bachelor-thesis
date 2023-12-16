@@ -1,5 +1,7 @@
 % Copyright (C) 2014-2023 by Thomas Auzinger <thomas@auzinger.name>
 
+\PassOptionsToPackage{hyphens}{url}
+
 \documentclass[draft,final]{vutinfth} % Remove option 'final' to obtain debug information.
 
 % Load packages to allow in- and output of non-ASCII characters.
@@ -29,7 +31,19 @@
 
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists of acronyms. This package has to be included last.
 
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
 \usepackage{esdiff}
+
+\usepackage{footmisc}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
 
 \newcommand{\authorname}{Nico Kratky}
 \newcommand{\thesistitle}{Enabling k8ssandra for Diagonal Elasticity Using the Polaris SLO Framework}
@@ -100,8 +114,6 @@
 \include{chapters/introduction}
 
 \include{chapters/background}
-
-\include{chapters/application}
 
 \include{chapters/implementation}
 
