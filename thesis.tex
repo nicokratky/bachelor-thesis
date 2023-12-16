@@ -24,6 +24,8 @@
 \usepackage{todonotes} % Provides tooltip-like todo notes.
 \usepackage{hyperref}  % Enables hyperlinking in the electronic document version. This package has to be included second to last.
 \usepackage[noabbrev,nameinlink]{cleveref}
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
 
 \usepackage{silence} % Silence compilation warnings
 \WarningFilter{glossaries}{Overriding \printglossary}
@@ -39,6 +41,16 @@
 \usepackage{esdiff}
 
 \usepackage{footmisc}
+
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\sffamily,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=tb,
+    columns=fullflexible,
+    showstringspaces=false
+}
 
 \newcommand{\incfig}[1]{%
     \def\svgwidth{\columnwidth}
