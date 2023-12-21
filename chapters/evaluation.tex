@@ -89,3 +89,27 @@ The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,
     \caption{Stress test of 3 nodes with 1000000 writes}
     \label{fig:stress-1000000writes-3node}
 \end{figure}
+
+\subsection{Vertical Elasticity Strategy}
+
+As mentioned in \cref{sec:vertical-elasticity} the vertical elasticity strategy adjusts the resource claims of k8ssandra according to its CPU and memory utilization.
+
+As it can bee seen in \cref{fig:simple-limits-vertical} the elasticity strategy controller successfully changes the CPU and memory limits of the k8ssandra cluster once it is operational. \Cref{fig:utilization-vertical} shows the CPU and memory utilization that is used for triggering elasticity processes. Because the CPU utilization stays very low even after scaling takes place, it can be assumed that this metric was not a decisive factor. The memory utilization, however, changes notably. Before starting the elasticity strategy controller the actual memory utilization was off by \(>10\%\) from the target memory utilization. This triggers an elasticity event and the resources are adjusted proportionally.
+
+Interestingly, during reconsiliation the exposed metrics of k8ssandra are not very meaningful. During this process utilization values of far more than 100\% are exposed by the metrics controller. In order to keep the diagram clean, these nonsense-metrics have been filtered out. The reconsiliation process is marked red in \cref{fig:utilization-vertical}.
+
+This elasticity strategy mirrors real-life scenarios. The advantage lies in being able to scale down when demand and therefore CPU and memory utilization is low, thus potentially reducing cost. This obviously only applies when not using dedicated resources.
+
+\begin{figure}
+    \centering
+    \input{figures/plots/simple-limits-vertical-controller-1node-30min.pgf}
+    \caption{Adjustment of CPU and memory limits by the vertical elasticity strategy controller}
+    \label{fig:simple-limits-vertical}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/utilization-vertical-controller-1node-20min.pgf}
+    \caption{}
+    \label{fig:utilization-vertical}
+\end{figure}
