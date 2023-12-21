@@ -1,2 +1,91 @@
 \chapter{Evaluation}
 \label{ch:evaluation}
+
+This chapter first introduces the setup that was used for evaluating the different elasticity strategies. Then the results of different tests are presented and discussed.
+
+\section{Testsetup}
+\label{sec:testsetup}
+
+In order to test the different elasticity strategies a test environment has to be set up. It was decided to create three virtual machines (VM) that will form a Kubernetes cluster. Because of its easy of use microk8s was chosen as distribution\footnote{\url{https://microk8s.io/}}. All three virtual machines were assigned 10 vCPUs and 10GB of memory. One VM acts as the Kubernetes control plane while the other two join the cluster as worker nodes.
+
+Everything that was deployed into the Kubernetes cluster was built using the infrastructure as code (IaC) tool HashiCorp Terraform\footnote{\url{https://www.terraform.io/}}. This enables rapid changes and reproducibility. Deployed resources include the kube-prometheus-stack\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}} for monitoring, the k8ssandra-operator\footnote{\url{https://docs.k8ssandra.io/components/k8ssandra-operator/}} for managing k8ssandra clusters and a definition for a k8ssandra cluster. Additionally, the in \cref{sec:metrics} mentioned Grafana ashboards are also deployed using Terraform.
+
+\Cref{lst:k8c} illustrates a minimal definition of a 3 node k8ssandra cluster. Each node has resource limits of 800 millicpu and 6000 megabytes of memory and 3 gibibytes storage space.
+
+\begin{lstlisting}[caption={Minimal example of a K8ssandraCluster definition.},
+                label=lst:k8c,
+                captionpos=b,
+                float]
+apiVersion: k8ssandra.io/v1alpha1
+kind: K8ssandraCluster
+metadata:
+  name: polaris-test-cluster
+  namespace: k8ssandra
+spec:
+  cassandra:
+    resources:
+      limits:
+        cpu: 800m
+        memory: 6000M
+    datacenters:
+      - metadata:
+          name: dc1
+        size: 3
+        storageConfig:
+          cassandraDataVolumeClaimSpec:
+            resources:
+              requests:
+                storage: 3Gi
+\end{lstlisting}
+
+\section{Benchmarks}
+
+In the following sections, different test scenarios will be discussed. To let k8ssandra experience load, the built-in stress testing tool \texttt{cassandra-stress} was used\footnote{\raggedright\url{https://cassandra.apache.org/doc/stable/cassandra/tools/cassandra_stress.html}}.
+
+\subsection{Stress Testing}
+
+To set a baseline, three different k8ssandra cluster setups have been stress tested using \texttt{cassandra-stress}. The amount of write requests that the tool will make is set to be 1000000, the exact call is listed in \cref{lst:stress-1000000writes}. These cluster setups merely differ in the cluster size, thus the amount of nodes. All clusters were provisioned with limits of 2 CPUs and 6GB of memory.
+
+\begin{lstlisting}[caption={},
+                    captionpos=b,
+                    label=lst:stress-1000000writes,
+                    float]
+./cassandra-stress write n=1000000 -mode native cql3 \
+    user='USERNAME' password='PASSWORD'
+\end{lstlisting}
+
+The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,fig:stress-1000000writes-2node,,fig:stress-1000000writes-3node}. The write throughput increases with the amount of nodes, but not linearly. This, however, was to be expected as \texttt{cassandra-stress} does not partition data in way that favours linear scalability. The average write throughputs of these different clusters can be seen in \cref{tab:stress-1000000writes-ops}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Cluster size} & \textbf{operations/s} & \textbf{Time to complete} \\ \hline
+1                     & 12514                 & 2m38s                     \\ \hline
+2                     & 13142                 & 1m57s                     \\ \hline
+3                     & 14318                 & 1m50s                     \\ \hline
+\end{tabular}
+\caption{Average write throughput for different k8ssandra clusters. With increasing cluster size the throughput also increases}
+\label{tab:stress-1000000writes-ops}
+\end{table}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/stress-1000000writes-1node.pgf}
+    \caption{Stress test of 1 node with 1000000 writes}
+    \label{fig:stress-1000000writes-1node}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/stress-1000000writes-2node.pgf}
+    \caption{Stress test of 2 nodes with 1000000 writes}
+    \label{fig:stress-1000000writes-2node}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/stress-1000000writes-3node.pgf}
+    \caption{Stress test of 3 nodes with 1000000 writes}
+    \label{fig:stress-1000000writes-3node}
+\end{figure}
