@@ -58,10 +58,10 @@ In order to deliver services up to a certain standard, agreements between the se
 
 SLOs are measurable values, e.g. an applications CPU usage or memory consumption, that have a specified operating target. In the case that this value is violated the supporting infrastructure of the application has to be either increased or decreased. This process of increasing or decreasing resources is called elasticity, which was further discussed in \cref{sec:elasticity}.
 
-\section{Polaris Framework}
+\section{Polaris SLO Framework}
 \label{sec:polaris}
 
-The Polaris Framework\footnote{\url{https://polaris-slo-cloud.github.io/polaris-slo-framework/}} is a framework that provides a way to bring high-level SLOs to the cloud. It tries to solve the limitation that modern cloud cloud providers only offer rudimentary support for high-level SLOs and customers often need to manually map them to low-level metrics such as CPU usage or memory consumption \cite{pusztaiSLOScriptNovel2021}.
+The Polaris SLO Framework\footnote{\url{https://polaris-slo-cloud.github.io/polaris-slo-framework/}} is a framework that provides a way to bring high-level SLOs to the cloud. It tries to solve the limitation that modern cloud cloud providers only offer rudimentary support for high-level SLOs and customers often need to manually map them to low-level metrics such as CPU usage or memory consumption \cite{pusztaiSLOScriptNovel2021}.
 
 The authors of this framework introduce the concept of \textit{elasticity strategies}. A elasticity strategy is defined as any sequency of actions that adjust the amount of resources provisioned for a workload, their type or the workload configuration. The workload configuration adjustment is especially noteworthy, because workloads handled by Polaris can be affected in all three elasticity dimensions.
 
@@ -72,7 +72,7 @@ Decoupling SLOs from elasticity strategies is also a feature that Polaris provid
 \begin{figure}
     \centering
     \incfig{polaris-architecture}
-    \caption{Architecture of Polaris. Metrics controllers, elasticity strategy controllers and targets are decoupled and mapped using a SLO mapping.}
+    \caption{Architecture of the Polaris SLO framework. Metrics controllers, elasticity strategy controllers and targets are decoupled and mapped using a SLO mapping.}
     \label{fig:polaris-architecture}
 \end{figure}
 

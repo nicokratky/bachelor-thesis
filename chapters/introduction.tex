@@ -17,7 +17,7 @@ The cloud computing paradigm emerged in the recent decade and provides ``ubiquit
 %   * implementation of combination of vertical and horizontal elasticity strategy
 % why do we want diagonal elasticity?
 
-The main goal of this thesis is to implement a elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implementend using the Polaris framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
+The main goal of this thesis is to implement a elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implementend using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
 
 As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes,for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
 

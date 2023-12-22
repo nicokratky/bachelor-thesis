@@ -5,7 +5,7 @@ This chapter discusses the implementation of the metrics controller, SLO control
 \section{Metrics}
 \label{sec:metrics}
 
-In order to continously monitor the k8ssandra cluster, a custom metric is introduced. The Polaris framework supports two kinds of metrics, raw metrics and composed metrics, with the new metric being of the latter type. A composed metric consists of a combination of raw metrics.
+In order to continously monitor the k8ssandra cluster, a custom metric is introduced. The Polaris SLO framework supports two kinds of metrics, raw metrics and composed metrics, with the new metric being of the latter type. A composed metric consists of a combination of raw metrics.
 
 The new composed metrics includes three raw metrics: average CPU utilization, average memory utilization and average write utilization. All raw metrics are calculated using the Metrics Collector for Apache Cassandra\footnote{\url{https://docs.k8ssandra.io/components/metrics-collector/}} (MCAC), which is a component which is included with k8ssandra. The Metrics Collector for Apache Cassandra aggregates operating system level metrics alongside with Cassandra metrics. K8ssandra also provides preconfigured Grafana dashboards\footnote{\raggedright\url{https://docs.k8ssandra.io/tasks/monitor/prometheus-grafana/grafana-dashboards.yaml}}. The following metrics were heavily influenced by the metrics that were used in these dashboards.
 
@@ -119,7 +119,7 @@ All of these values are given as percentages. Both of these types also have a fi
 
 \subsection{API Object}
 
-To enable the Polaris framework to interact with the k8ssandra CRD subtype of \texttt{ApiObject} was used. \texttt{ApiObject} is used for any object that should be added, read, changed or deleted by Polaris using the orchestrator's API.
+To enable the Polaris SLO framework to interact with the k8ssandra CRD subtype of \texttt{ApiObject} was used. \texttt{ApiObject} is used for any object that should be added, read, changed or deleted by Polaris using the orchestrator's API.
 
 Because of this use of a subtype the framework is also able to automatically transform fields. Kubernetes for example uses two separate fields for resources, requests and limits. Polaris on the other hand simply uses ``resources'' as orchestrator details are abstracted. This conversion from requests and limits to resources is handled by Polaris through annotating the respective fields with \texttt{PolarisType}.
 
