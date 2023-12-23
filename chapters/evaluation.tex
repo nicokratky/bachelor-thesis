@@ -8,9 +8,9 @@ This chapter first introduces the setup that was used for evaluating the differe
 
 In order to test the different elasticity strategies a test environment has to be set up. It was decided to create three virtual machines (VM) that will form a Kubernetes cluster. Because of its easy of use microk8s was chosen as distribution\footnote{\url{https://microk8s.io/}}. All three virtual machines were assigned 10 vCPUs and 10GB of memory. One VM acts as the Kubernetes control plane while the other two join the cluster as worker nodes.
 
-Everything that was deployed into the Kubernetes cluster was built using the infrastructure as code (IaC) tool HashiCorp Terraform\footnote{\url{https://www.terraform.io/}}. This enables rapid changes and reproducibility. Deployed resources include the kube-prometheus-stack\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}} for monitoring, the k8ssandra-operator\footnote{\url{https://docs.k8ssandra.io/components/k8ssandra-operator/}} for managing k8ssandra clusters and a definition for a k8ssandra cluster. Additionally, the in \cref{sec:metrics} mentioned Grafana ashboards are also deployed using Terraform.
+Everything that was deployed into the Kubernetes cluster was built using the infrastructure as code (IaC) tool HashiCorp Terraform\footnote{\url{https://www.terraform.io/}}. This enables rapid changes and reproducibility. Deployed resources include the kube-prometheus-stack\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}} for monitoring, the k8ssandra-operator\footnote{\url{https://docs.k8ssandra.io/components/k8ssandra-operator/}} for managing k8ssandra clusters and a definition for a k8ssandra cluster. Additionally, the in \cref{sec:metrics} mentioned Grafana dashboards are also deployed using Terraform.
 
-\Cref{lst:k8c} illustrates a minimal definition of a 3 node k8ssandra cluster. Each node has resource limits of 800 millicpu and 6000 megabytes of memory and 3 gibibytes storage space.
+\Cref{lst:k8c} illustrates a minimal definition of a 3 node k8ssandra cluster. Each node has resource limits of 800 millicpu and 6000MB of memory and 3GiB storage space.
 
 \begin{lstlisting}[caption={Minimal example of a K8ssandraCluster definition.},
                 label=lst:k8c,
