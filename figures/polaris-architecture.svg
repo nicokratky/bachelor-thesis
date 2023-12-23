@@ -3,8 +3,8 @@
 
 <svg
    width="145mm"
-   height="70mm"
-   viewBox="0 0 145 70"
+   height="55mm"
+   viewBox="0 0 145 55"
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
@@ -26,18 +26,18 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.946286"
-     inkscape:cx="273.34112"
-     inkscape:cy="91.456238"
+     inkscape:zoom="2.2124604"
+     inkscape:cx="279.32703"
+     inkscape:cy="62.825983"
      inkscape:window-width="2560"
      inkscape:window-height="1387"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3"
      showguides="true">
     <sodipodi:guide
-       position="57.5,44.095478"
+       position="60.211127,33.288875"
        orientation="1,0"
        id="guide5"
        inkscape:locked="false" />
@@ -47,7 +47,7 @@
        id="guide7"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="87.5,43.070615"
+       position="84.788878,33.288875"
        orientation="1,0"
        id="guide8"
        inkscape:locked="false" />
@@ -56,7 +56,7 @@
      id="defs1">
     <marker
        style="overflow:visible"
-       id="marker12"
+       id="marker11"
        refX="0"
        refY="0"
        orient="auto-start-reverse"
@@ -71,45 +71,7 @@
          transform="scale(0.5)"
          style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
          d="M 5.77,0 -2.88,5 V -5 Z"
-         id="path12" />
-    </marker>
-    <marker
-       style="overflow:visible"
-       id="marker10"
-       refX="0"
-       refY="0"
-       orient="auto-start-reverse"
-       inkscape:stockid="Triangle arrow"
-       markerWidth="1"
-       markerHeight="1"
-       viewBox="0 0 1 1"
-       inkscape:isstock="true"
-       inkscape:collect="always"
-       preserveAspectRatio="xMidYMid">
-      <path
-         transform="scale(0.5)"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
-         d="M 5.77,0 -2.88,5 V -5 Z"
-         id="path10" />
-    </marker>
-    <marker
-       style="overflow:visible"
-       id="marker5"
-       refX="0"
-       refY="0"
-       orient="auto-start-reverse"
-       inkscape:stockid="Triangle arrow"
-       markerWidth="1"
-       markerHeight="1"
-       viewBox="0 0 1 1"
-       inkscape:isstock="true"
-       inkscape:collect="always"
-       preserveAspectRatio="xMidYMid">
-      <path
-         transform="scale(0.5)"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
-         d="M 5.77,0 -2.88,5 V -5 Z"
-         id="path5" />
+         id="path11" />
     </marker>
     <marker
        style="overflow:visible"
@@ -129,6 +91,44 @@
          style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
          d="M 5.77,0 -2.88,5 V -5 Z"
          id="path135" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path7" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path5" />
     </marker>
     <inkscape:path-effect
        effect="copy_rotate"
@@ -157,77 +157,77 @@
        transform="translate(0,-2.5367129)">
       <g
          id="g2-0-1"
-         transform="translate(28.993581,23.928947)"
+         transform="translate(28.993581,11.758106)"
          inkscape:label="Target Deployment">
         <rect
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.583207;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.501512;stroke-dasharray:none;stroke-opacity:1"
            id="rect1-4-4-4"
-           width="40"
-           height="15"
-           x="71.524658"
-           y="31.460115"
+           width="35.498489"
+           height="12.498488"
+           x="71.48381"
+           y="31.419268"
            inkscape:label="rect1" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:3.88056px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-           x="75.62664"
-           y="39.875736"
+           x="79.330811"
+           y="40.934071"
            id="text1-3-0-77"
            inkscape:label="text1"><tspan
              sodipodi:role="line"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:'computer modern';-inkscape-font-specification:'computer modern';stroke-width:0.264583"
-             x="75.62664"
-             y="39.875736"
-             id="tspan3-9-0">Target Deployment</tspan></text>
+             x="79.330811"
+             y="40.934071"
+             id="tspan3-9-0">\shortstack{Target\\Deployment}</tspan></text>
       </g>
       <g
          id="g1"
-         transform="translate(1.3774872,-0.99961662)"
+         transform="translate(4.5524874,-6.6974032)"
          inkscape:label="SLO Mapping">
         <rect
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.531;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.422252;stroke-dasharray:none;stroke-opacity:1"
            id="rect1"
-           width="30"
-           height="15"
-           x="56.122513"
-           y="30.999617"
+           width="24.577747"
+           height="11.577748"
+           x="55.658638"
+           y="30.945242"
            inkscape:label="rect1" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:3.88056px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-           x="59.44492"
+           x="60.503254"
            y="39.538918"
            id="text1"
            inkscape:label="text1"><tspan
              sodipodi:role="line"
              id="tspan1"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:'computer modern';-inkscape-font-specification:'computer modern';stroke-width:0.264583"
-             x="59.44492"
-             y="39.538918">SLO Mapping</tspan></text>
+             x="60.503254"
+             y="39.538918">\shortstack{SLO\\Mapping}</tspan></text>
       </g>
       <g
          id="g2"
          transform="translate(52.048253,-25.404378)"
          inkscape:label="Elasticity Strategy Controller">
         <rect
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.583207;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.501512;stroke-dasharray:none;stroke-opacity:1"
            id="rect1-4"
-           width="40"
-           height="15"
-           x="48.469986"
-           y="30.088741"
+           width="35.498489"
+           height="12.498488"
+           x="48.429138"
+           y="30.047894"
            inkscape:label="rect1" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:3.88056px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-           x="53.082634"
-           y="40.934071"
+           x="50.965965"
+           y="39.875736"
            id="text1-3"
            inkscape:label="text1"><tspan
              sodipodi:role="line"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:'computer modern';-inkscape-font-specification:'computer modern';stroke-width:0.264583"
-             x="53.082634"
-             y="40.934071"
+             x="50.965965"
+             y="39.875736"
              id="tspan3">\shortstack{Elasticity Strategy\\Controller}</tspan></text>
       </g>
       <g
@@ -235,83 +235,83 @@
          transform="translate(-65.688723,-26.775752)"
          inkscape:label="SLO Controller">
         <rect
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.583207;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.501512;stroke-dasharray:none;stroke-opacity:1"
            id="rect1-4-4"
-           width="40"
-           height="15"
-           x="71.524658"
-           y="31.460115"
+           width="35.498489"
+           height="12.498488"
+           x="71.48381"
+           y="31.419268"
            inkscape:label="rect1" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:3.88056px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-           x="78.801643"
-           y="40.404903"
+           x="76.155807"
+           y="38.817402"
            id="text1-3-0"
            inkscape:label="text1"><tspan
              sodipodi:role="line"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:'computer modern';-inkscape-font-specification:'computer modern';stroke-width:0.264583"
-             x="78.801643"
-             y="40.404903"
+             x="76.155807"
+             y="38.817402"
              id="tspan3-9">SLO Controller</tspan></text>
       </g>
       <g
          id="g2-0-3"
-         transform="translate(-65.688723,23.928947)"
+         transform="translate(-65.688723,11.758106)"
          inkscape:label="Metrics Controller">
         <rect
-           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.583207;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.501512;stroke-dasharray:none;stroke-opacity:1"
            id="rect1-4-4-2"
-           width="40"
-           height="15"
-           x="71.524658"
-           y="31.460115"
+           width="35.498489"
+           height="12.498488"
+           x="71.48381"
+           y="31.419268"
            inkscape:label="rect1" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:3.88056px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-           x="76.4394"
-           y="39.923294"
+           x="74.322731"
+           y="38.86496"
            id="text1-3-0-7"
            inkscape:label="text1"><tspan
              sodipodi:role="line"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.88056px;font-family:'computer modern';-inkscape-font-specification:'computer modern';stroke-width:0.264583"
-             x="76.4394"
-             y="39.923294"
+             x="74.322731"
+             y="38.86496"
              id="tspan3-9-1">Metrics Controller</tspan></text>
       </g>
       <path
-         style="fill:#e0e0e0;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;marker-start:url(#Triangle)"
-         d="M 98.450335,12.184363 H 80.00092"
-         id="path1"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#e0e0e0;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
-         d="M 80.25,30 V 12.184363"
-         id="path2" />
-      <path
          style="fill:#e0e0e0;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;marker-start:url(#marker5)"
-         d="M 120.51824,53.315348 V 37.250131"
+         d="M 120.51824,41.144507 V 29.787265"
          id="path3"
          sodipodi:nodetypes="cc" />
       <path
-         style="fill:#e0e0e0;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
-         d="M 87.499999,37.500001 H 120.51824"
-         id="path4" />
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999"
+         d="m 84.788873,30.036713 35.729367,0"
+         id="path4"
+         sodipodi:nodetypes="cc" />
       <path
-         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
-         d="M 65.249999,30 V 11.934053"
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999;marker-end:url(#marker7)"
+         d="M 23.544332,17.142003 V 41.15397"
+         id="path6"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999;marker-start:url(#Triangle)"
+         d="M 43.31792,10.892759 H 66.750765"
          id="path8"
          sodipodi:nodetypes="cc" />
       <path
-         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none;marker-start:url(#marker10)"
-         d="m 47.907758,12.184362 h 17.34224"
-         id="path9"
-         sodipodi:nodetypes="cc" />
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999"
+         d="M 66.499999,10.892759 V 24.247838"
+         id="path9" />
       <path
-         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none;marker-end:url(#marker12)"
-         d="M 25.835935,19.684361 V 53.318"
-         id="path11"
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999"
+         d="m 78.999999,10.892759 v 13.35508"
+         id="path9-4" />
+      <path
+         style="fill:#e6e6e6;stroke:#000000;stroke-width:0.499999;marker-start:url(#marker11)"
+         d="m 98.444783,10.89276 -19.697829,0.0052"
+         id="path10"
          sodipodi:nodetypes="cc" />
     </g>
   </g>

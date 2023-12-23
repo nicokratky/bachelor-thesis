@@ -50,19 +50,19 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.48275862)%
+  \begin{picture}(1,0.37931034)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{polaris-architecture.pdf}}%
-    \put(0.72151877,0.06022089){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Target Deployment\end{tabular}}}}%
+    \put(0.74706477,0.0334106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\shortstack{Target\\Deployment}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{polaris-architecture.pdf}}%
-    \put(0.41946487,0.23446491){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}SLO Mapping\end{tabular}}}}%
+    \put(0.44866029,0.17031171){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\shortstack{SLO\\Mapping}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{polaris-architecture.pdf}}%
-    \put(0.7250406,0.39315186){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\shortstack{Elasticity Strategy\\Controller}\end{tabular}}}}%
+    \put(0.71044288,0.29700245){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\shortstack{Elasticity Strategy\\Controller}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{polaris-architecture.pdf}}%
-    \put(0.09043393,0.40625904){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}SLO Controller\end{tabular}}}}%
+    \put(0.07218679,0.31375906){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}SLO Controller\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{polaris-architecture.pdf}}%
-    \put(0.0741426,0.05989291){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Metrics Controller\end{tabular}}}}%
+    \put(0.05954488,0.04768033){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Metrics Controller\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{polaris-architecture.pdf}}%
   \end{picture}%
 \endgroup%
