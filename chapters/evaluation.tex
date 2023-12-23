@@ -131,3 +131,33 @@ At approximately 290s a sudden drop in the metric can be observed. This is the p
     \caption{Average write load per node and amount of nodes during a horizontal scaling action}
     \label{fig:horizontal-elasticity}
 \end{figure}
+
+\subsection{Diagonal Elasticity Strategy}
+
+As explained earlier, the diagonal elasticity strategy combines the capabilites of the vertical and horizontal elasticity strategy into one single elasticity strategy.
+
+\Cref{fig:diagonal-elasticity} summarizes all metrics into a single illustration. The starting configuration was set to be a single k8ssandra node with resources of 2 CPUs and 6GB of memory. After starting the elasticity strategy controller it can be seen in \cref{fig:diagonal-elasticity-limits} that the controller immediatly reduces both CPU and memory resources. The reason for that can be seen in \cref{fig:diagonal-elasticity}, subfigure \texttt{c} and \texttt{d}. Right at the start, both CPU and memory utilization was not within the tolerance range of the target utilization. Therefore both CPU and memory limits were reduced. After the inital adjustment, the CPU utilization was still far away from the targeted amount. That is because the CPU resources hit the statically set lower bounds. The memory utilization however climbed above the targeted amount, therefore it was reduced again in the second taken scaling action.
+
+Similarly to \cref{sec:evaluation-vertical-elasticity}, during Cassandra reconsiliation metrics are not very useful. This is again highlighted in red in \cref{fig:diagonal-elasticity}.
+
+During the second scaling action it can be seen that vertical and horizontal scaling indeed can happen simultaneously. In subfigure \texttt{b} of \cref{fig:diagonal-elasticity} the node count increased to 2, whereas in \cref{fig:diagonal-elasticity-limits} the memory limits increased. Note, that the \texttt{k8ssandra-operator} adjusts those values one at a time. This means that first the second k8ssandra node is started and then both Pods will get its resources updated accordingly.
+
+Horizontal scaling action are taken when the write load per node reaches a certain threshold, 5000 in this example. In \cref{fig:diagonal-elasticity}, subfigure \texttt{a} it can be seen that after the second, third and fourth scaling events, the k8ssandra cluster size is increas, thus an additional node is started. During the fifth and last scaling event no additional node is started, because the statically set maximum amount of nodes is reached. It is also visible, that the total write throughput increases with increasing node count. This can be further illustrated by multiplying the estimated peak write load with the current node count. \(18000 * 1 = 18000,\ 12000 * 2 = 24000,\ 9000 * 3 = 27000 \rightarrow 18000 < 24000 < 27000\).
+
+Because of the in \cref{sec:evaluation-horizontal-elasticity} addressed drawback of \texttt{cassandra-stress}, which does not detect changes to the cluster architecture, stress tests were cancelled after new nodes were added, and restarted when Cassandra had finished its reconsiliation process.
+
+The advantage of this elasticity strategy is its ability to scale vertically and horizontally independently. This means that during times of low demand resources can be saved or used by other applications. A lower amount of resources also implies lower costs. During high demand times resources can be claimed again to provide a sufficient service level. If k8ssandra reports a high amount of writes the elasticity strategy can the also decide to scale-out horizontally by adding more nodes. As it was shown in \cref{sec:stress-testing} this increases the total throughput. As mentioned before, horizontal scale-in is not implemented in this project. This will be further addressed in \cref{sec:future-work}.
+
+\begin{figure}
+    \centering
+    \input{figures/plots/diagonal-elasticity.pgf}
+    \caption{Adjustment of CPU and memory resources aswell as cluster size during diagonal elasticity}
+    \label{fig:diagonal-elasticity}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/diagonal-elasticity-limits.pgf}
+    \caption{CPU and memory limits while the diagonal elasticity strategy controller is running}
+    \label{fig:diagonal-elasticity-limits}
+\end{figure}
