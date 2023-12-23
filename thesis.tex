@@ -27,12 +27,6 @@
 \crefname{lstlisting}{listing}{listings}
 \Crefname{lstlisting}{Listing}{Listings}
 
-\usepackage{silence} % Silence compilation warnings
-\WarningFilter{glossaries}{Overriding \printglossary}
-\WarningFilter{glossaries}{Overriding `theglossary'}
-
-\usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists of acronyms. This package has to be included last.
-
 \usepackage{import}
 \usepackage{xifthen}
 \usepackage{pdfpages}
@@ -80,8 +74,6 @@
 \setlength{\parindent}{0pt} % Remove paragraph indentation (optional).
 
 \makeindex      % Use an optional index.
-\makeglossaries % Use an optional glossary.
-%\glstocfalse   % Remove the glossaries from the table of contents.
 
 % Set persons with 4 arguments:
 %  {title before name}{name}{title after name}{gender}
@@ -151,9 +143,6 @@
 % Add an index.
 % \printindex
 %
-% Add a glossary.
-\printglossaries
-
 % Add a bibliography.
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
