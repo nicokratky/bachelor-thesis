@@ -6,19 +6,19 @@ The cloud computing paradigm emerged in the recent decade and provides ``ubiquit
 \begin{enumerate}
     \item \textbf{Infrastructure as a Service (IaaS)}. This model enables customers to provision processing and storage infrastructure to run arbitrary software. While the consumer has control over both application and operating system, they are not responsible for controling and maintaining the underlying infrastructure. A well known example is Amazon Elastic Cloud Compute (EC2)\footnote{\url{https://aws.amazon.com/ec2/}}.
 
-    \item \textbf{Platform as a Service (PaaS)}. The customer is able to deploy applications to provided hosting infrastructure. Control is given only to the deployed application and possibly single configuration settings. The underlying infrastructure is solely controlled by the provider. Notable products include the Google App Engine\footnote{\url{https://cloud.google.com/appengine}}.
+    \item \textbf{Platform as a Service (PaaS)}. The customer is able to deploy applications to provided hosting infrastructure. Control is given only to the deployed application and possibly single configuration settings. The underlying infrastructure is solely controlled by the provider. Notable products include Google App Engine\footnote{\url{https://cloud.google.com/appengine}}.
 
     \item \textbf{Software as a Service (SaaS)}. This model allows users to use a provided application that runs on cloud infrastructure. Users do not control the application nor the underlying infrastructure. A suitable example would include Astra DB by DataStax\footnote{\url{https://www.datastax.com/products/datastax-astra}}.
 \end{enumerate}
 
-All three of these service models have one thing in common: they profit from elasticity. Be it the infrastructure that provisiones more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the k8ssandra database for different elasticity strategies.
+All three of these service models have one thing in common: they profit from elasticity. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the k8ssandra database for different elasticity strategies.
 
 \section{Problem Statement}
 \label{sec:problem-statement}
 
 The main goal of this thesis is to implement a elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implementend using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
 
-As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes,for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
+As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes, for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
 
 \section{Structure of the Thesis}
 \label{sec:structure}
