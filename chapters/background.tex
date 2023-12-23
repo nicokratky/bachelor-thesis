@@ -14,7 +14,7 @@ The term elasticity in computing is conceptually similiar to the term in physics
 
 The formula - which takes a more mathematical approach - of elasticity can be defined as \[ e(Y, X) = \diff{Y}{X} \frac{X}{Y}, \] where \(e(Y, X)\) is the elasticity of \(Y\) with respect to \(X\) \cite{dustdarPrinciplesElasticProcesses2011}.
 
-To illustrate this imagine an application that serves some content to its customers. These customers typically interact with the application during the day. This means that the application experiences significantly less load during the night. Once people wake up in the morning the load rises until it peaks in the afternoon. Then the load falls again when people go to sleep in the evening. Using this example it can be seen in \cref{fig:elasticity-application-no-scaling} that during the night the resources of the application are overprovisioned and during the day the resoures are underprovisioned.
+To illustrate this, imagine an application that serves some content to its customers. These customers typically interact with the application during the day. This means that the application experiences significantly less load during the night. Once people wake up in the morning the load rises until it peaks in the afternoon. Then the load falls again when people go to sleep in the evening. Using this example it can be seen in \cref{fig:elasticity-application-no-scaling} that during the night the resources of the application are overprovisioned and during the day the resoures are underprovisioned.
 
 \begin{figure}
     \centering
@@ -46,7 +46,7 @@ What makes this definition easily mistaken, is that it solely considers the aqui
 
 Cost elasticity uses cost as its main factor for elasticity decisions. One of the most popular models that build upon cost elasticity is \textit{utility computing}, also known as the \textit{pay-as-you-go} pricing model.
 
-Amazon Web Services uses this elasticity dimension in their EC2 Spot Instance\footnote{\url{https://aws.amazon.com/ec2/spot/}}. AWS provides its unused compute capacity at a large discount to its customers. But because these capacities are volatile, the prices are not fixed but are provided through a bidding process. The potential customer tells AWS their maximum price they are willing to pay. The customer can then run their instances as long as their bidding price is smaller than AWS's Spot Instance price.
+Amazon Web Services uses this elasticity dimension in their EC2 Spot Instances\footnote{\url{https://aws.amazon.com/ec2/spot/}}. AWS provides its unused compute capacity at a large discount to its customers. But because these capacities are volatile, the prices are not fixed but are provided through a bidding process. The potential customer tells AWS their maximum price they are willing to pay. The customer can then run their instances as long as their bidding price is smaller than AWS's Spot Instance price.
 
 \subsection{Quality Elasticity}
 
