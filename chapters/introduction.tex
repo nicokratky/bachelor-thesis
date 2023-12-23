@@ -11,11 +11,10 @@ The cloud computing paradigm emerged in the recent decade and provides ``ubiquit
     \item \textbf{Software as a Service (SaaS)}. This model allows users to use a provided application that runs on cloud infrastructure. Users do not control the application nor the underlying infrastructure. A suitable example would include Astra DB by DataStax\footnote{\url{https://www.datastax.com/products/datastax-astra}}.
 \end{enumerate}
 
+All three of these service models have one thing in common: they profit from elasticity. Be it the infrastructure that provisiones more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the k8ssandra database for different elasticity strategies.
+
 \section{Problem Statement}
 \label{sec:problem-statement}
-% what is the objective?
-%   * implementation of combination of vertical and horizontal elasticity strategy
-% why do we want diagonal elasticity?
 
 The main goal of this thesis is to implement a elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implementend using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
 
