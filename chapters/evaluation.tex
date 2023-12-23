@@ -43,6 +43,7 @@ spec:
 In the following sections, different test scenarios will be discussed. To let k8ssandra experience load, the built-in stress testing tool \texttt{cassandra-stress} was used\footnote{\raggedright\url{https://cassandra.apache.org/doc/stable/cassandra/tools/cassandra_stress.html}}.
 
 \subsection{Stress Testing}
+\label{sec:stress-testing}
 
 To set a baseline, three different k8ssandra cluster setups have been stress tested using \texttt{cassandra-stress}. The amount of write requests that the tool will make is set to be 1000000, the exact call is listed in \cref{lst:stress-1000000writes}. These cluster setups merely differ in the cluster size, thus the amount of nodes. All clusters were provisioned with limits of 2 CPUs and 6GB of memory.
 
@@ -91,6 +92,7 @@ The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,
 \end{figure}
 
 \subsection{Vertical Elasticity Strategy}
+\label{sec:evaluation-vertical-elasticity}
 
 As mentioned in \cref{sec:vertical-elasticity} the vertical elasticity strategy adjusts the resource claims of k8ssandra according to its CPU and memory utilization.
 
@@ -110,6 +112,22 @@ This elasticity strategy mirrors real-life scenarios. The advantage lies in bein
 \begin{figure}
     \centering
     \input{figures/plots/utilization-vertical-controller-1node-20min.pgf}
-    \caption{}
+    \caption{Utilization of CPU and memory during an vertical scaling action}
     \label{fig:utilization-vertical}
+\end{figure}
+
+\subsection{Horizontal Elasticity Strategy}
+\label{sec:evaluation-horizontal-elasticity}
+
+The horizontal elasticity strategy controller scales the target k8ssandra cluster horizontally, thus adding nodes as demand increases. Demand is measured as write throughput by the metrics controller as described in \cref{sec:metrics-average-write-utilization}.
+
+As in the example stress tests discussed in \cref{sec:stress-testing}, \texttt{cassandra-stress} was used to generate load on the target k8ssandra cluster. During this load generation process, the horizontal elasticity controller was running. The target write load per node was defined in the SLO mapping as 5000. Depicted in \cref{fig:horizontal-elasticity} is the average write load per node metric and the corresponding node count during the testing process. It can be seen that the node count does not increase immediatly when the scaling action takes place. That is because when the k8ssandra CRD is updated by the elasticity strategy controller, first the \texttt{k8ssandra-operator} has to recognize the made changes and adjust the configuration accordingly. When the second k8ssandra node is successfully scheduled it still needs time to start and finally register in the cluster. The final action is the Cassandra reconciliation process.
+
+At approximately 290s a sudden drop in the metric can be observed. This is the point when the scaling action becomes effective and the k8ssandra node is ready. Then, after another few moments the metric drops under the set boundary of 5000. Tests of this kind are difficult to run over an extended period of time because of a limitation of \texttt{cassandra-stress}. When the load generator is started, it collects all available nodes in the cluster through Cassandra's communication protocol \texttt{Gossip}. \texttt{Gossip} is the protocol that Cassandra uses internally for its nodes to communicate with each other\footnote{\raggedright\url{https://docs.datastax.com/en/cassandra-oss/3.x/cassandra/architecture/archGossipAbout.html}}. While \texttt{cassandra-stress} is running, new nodes are not recognized and requests are therefore not sent to added nodes. Possible solutions to this will be discussed in \cref{ch:conclusion}.
+
+\begin{figure}
+    \centering
+    \input{figures/plots/horizontal-elasticity.pgf}
+    \caption{Average write load per node and amount of nodes during a horizontal scaling action}
+    \label{fig:horizontal-elasticity}
 \end{figure}

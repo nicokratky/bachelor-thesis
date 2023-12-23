@@ -73,6 +73,7 @@ max(
 \end{lstlisting}
 
 \subsection{Average Write Utilization}
+\label{sec:metrics-average-write-utilization}
 
 This metric measures the average write load that one k8ssandra node experiences. It is used for horizontal scaling, which means adding nodes to the cluster. The metric consists of two separate queries which are shown in \cref{lst:writeUtilization,lst:getNodeCount}. The first query gets the total write load of the cluster and the second query calculates the current amount of active nodes. The before mentioned provided Grafana dashboards offer multiple ways of getting the node count, with the one listed here being among the simplest.
 
