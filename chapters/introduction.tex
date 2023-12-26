@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-The cloud computing paradigm emerged in the recent decade and provides ``ubiquitous, convenient, on-demand network access to a shared pool of configurable resources that can be rapidly provisioned and released with minimal management effort or service provider interaction'' \cite{mellNISTDefinitionCloud2011a}. These properties together with a pay-per-use principle motivated many customer to adopt this technology. Cloud computing can be differentiated in three basic service models:
+The cloud computing paradigm emerged in the recent decade and provides ``ubiquitous, convenient, on-demand network access to a shared pool of configurable resources that can be rapidly provisioned and released with minimal management effort or service provider interaction'' \cite{mellNISTDefinitionCloud2011a}. These properties together with a pay-per-use principle motivated many customers to adopt this technology. Cloud computing can be differentiated in three basic service models:
 
 \begin{enumerate}
     \item \textbf{Infrastructure as a Service (IaaS)}. This model enables customers to provision processing and storage infrastructure to run arbitrary software. While the consumer has control over both application and operating system, they are not responsible for controling and maintaining the underlying infrastructure. A well known example is Amazon Elastic Cloud Compute (EC2)\footnote{\url{https://aws.amazon.com/ec2/}}.
@@ -16,7 +16,7 @@ All three of these service models have one thing in common: they profit from ela
 \section{Problem Statement}
 \label{sec:problem-statement}
 
-The main goal of this thesis is to implement a elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implementend using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
+The main goal of this thesis is to implement an elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implemented using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
 
 As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes, for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
 
@@ -26,9 +26,9 @@ As of now, common automatic scaling mechanisms include horizontal and vertical s
 \begin{itemize}
     \item \Cref{ch:background} introduces concepts and terminology used throughout this thesis. It discusses the concepts of elasticity in cloud computing and introduces the framework that is used to implement elasticity strategies.
 
-    \item \Cref{ch:implementation} presents the implementation details of the project. It first shows the used metric, then introduces the different service level objectives and finally discussed the elasticity strategies.
+    \item \Cref{ch:implementation} presents the implementation details of the project. It first shows the used metrics, then introduces the different service level objectives and finally discusses the elasticity strategies.
 
     \item \Cref{ch:evaluation} evaluates the implemented elasticity strategies. This is done by running stress tests in different scenarios.
 
-    \item \Cref{ch:conclusion} concludes this thesis. It discussed limitations and provides an outlook into possible future work.
+    \item \Cref{ch:conclusion} concludes this thesis. It discusses limitations and provides an outlook into possible future work.
 \end{itemize}

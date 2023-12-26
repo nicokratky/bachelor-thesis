@@ -7,11 +7,11 @@ This chapter discusses the implementation of the metrics controller, SLO control
 
 In order to continously monitor the k8ssandra cluster, a custom metric is introduced. The Polaris SLO framework supports two kinds of metrics, raw metrics and composed metrics, with the new metric being of the latter type. A composed metric consists of a combination of raw metrics.
 
-The new composed metrics includes three raw metrics: average CPU utilization, average memory utilization and average write utilization. All raw metrics are calculated using the Metrics Collector for Apache Cassandra\footnote{\url{https://docs.k8ssandra.io/components/metrics-collector/}} (MCAC), which is a component which is included with k8ssandra. The Metrics Collector for Apache Cassandra aggregates operating system level metrics alongside with Cassandra metrics. K8ssandra also provides preconfigured Grafana dashboards\footnote{\raggedright\url{https://docs.k8ssandra.io/tasks/monitor/prometheus-grafana/grafana-dashboards.yaml}}. The following metrics were heavily influenced by the metrics that were used in these dashboards.
+The new composed metrics includes three raw metrics: average CPU utilization, average memory utilization and average write utilization. All raw metrics are calculated using the Metrics Collector for Apache Cassandra\footnote{\url{https://docs.k8ssandra.io/components/metrics-collector/}} (MCAC), which is a component included with k8ssandra. The Metrics Collector for Apache Cassandra aggregates operating system level metrics alongside with Cassandra metrics. K8ssandra also provides preconfigured Grafana dashboards\footnote{\raggedright\url{https://docs.k8ssandra.io/tasks/monitor/prometheus-grafana/grafana-dashboards.yaml}}. The following metrics were heavily influenced by the metrics that were used in these dashboards.
 
 \subsection{Average CPU Utilization}
 
-The average CPU utilization metric expresses the CPU utilization averaged over the target k8ssandra cluster. This metric is used for vertical elasticity. \Cref{lst:avgCpuUtilization} shows an the respective PromQL query.
+The average CPU utilization metric expresses the CPU utilization averaged over the target k8ssandra cluster. This metric is used for vertical elasticity. \Cref{lst:avgCpuUtilization} shows the respective PromQL query.
 
 \begin{lstlisting}[caption={PromQL query used for the average CPU utilisation metric},
                     captionpos=b,
@@ -103,7 +103,7 @@ count(
 \section{SLO Controllers}
 \label{sec:slos}
 
-SLO controllers are used to configure and evaluate specifig service level objectives. These evaluations are then used to configure the respective elasticity strategies.
+SLO controllers are used to configure and evaluate specific service level objectives. These evaluations are then used to configure the respective elasticity strategies.
 
 As part of this thesis three SLOs and their corresponding controllers were implemented. Two of these are used for the vertical and horizontal elasticity strategies. The third one, called ``k8ssandra-efficiency'' is a combination of the other ones that is used for the diagonal elasticity strategy.
 
@@ -126,11 +126,7 @@ Because of this use of a subtype the framework is also able to automatically tra
 
 \section{Elasticity Strategies}
 
-% "eigentlich" scaling arbeit
-% `execute` bekommt parameter, lädt objekt, ändert es ggf und schreibt es zurück
-% control loop sozusagen
-
-The elasticity strategy controllers perform the actions that are required to scale the workload. All elasticity strategy controllers must implement the interface \texttt{Elasticity\-Strategy\-Controller} which requires the implementation of four methods: \texttt{check\-If\-Action\-Needed}, \texttt{execute}, \texttt{on\-Elasticity\-Strategy\-Deleted} and \texttt{on\-Destroy}, with the latter two ones being optional.
+The elasticity strategy controllers perform the actions that are required to scale the workload. All elasticity strategy controllers must implement the interface \texttt{Elasticity\-Strategy\-Controller} which requires the implementation of four methods: \texttt{check\-If\-Action\-Needed}, \texttt{execute}, \texttt{on\-Elasticity\-Strategy\-Deleted} and \texttt{on\-Destroy}, with the latter two being optional.
 
 These elasticity strategy controllers are called with the appropriate \texttt{SloOutput} during the SLO control loop \cite{pusztaiNovelMiddlewareEfficiently2021a}.
 
