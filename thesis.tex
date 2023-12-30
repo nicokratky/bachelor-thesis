@@ -38,6 +38,10 @@
 
 \usepackage{float}
 
+\usepackage{csquotes}
+\usepackage[url=false]{biblatex}
+\addbibresource{bibliography.bib}
+
 \usepackage{listings}
 \lstset{
     basicstyle=\footnotesize\ttfamily,
@@ -130,7 +134,6 @@
 \backmatter
 
 % Add a bibliography.
-\bibliographystyle{ieeetr}
-\bibliography{bibliography}
+\printbibliography
 
 \end{document}
