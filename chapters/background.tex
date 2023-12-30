@@ -77,7 +77,7 @@ Decoupling SLOs from elasticity strategies is also a feature that Polaris provid
 \section{k8ssandra}
 \label{sec:k8ssandra}
 
-Cassandra is a popular wide-column store NoSQL database that was initially developed at Facebook and later integradet into the Apache Software Foundation\footnote{\url{https://cassandra.apache.org/_/cassandra-basics.html}\label{fn:cassandra-basics}}. Its main features include being easily horizontally scalable, being fully distributed and its schema-less data approach.
+Cassandra is a popular wide-column store NoSQL database that was initially developed at Facebook and later integrated into the Apache Software Foundation\footnote{\url{https://cassandra.apache.org/_/cassandra-basics.html}\label{fn:cassandra-basics}} \cite{lakshmanCassandraDecentralizedStructured2010}. Its main features include being easily horizontally scalable, being fully distributed and its schema-less data approach.
 
 Being distributed means, that Cassandra is comprised of a set of nodes. Each nodes tasks and responsibilities are identical. Data is partitioned using a partition key and is replicated between nodes. How many times data is replicated is determined by the \textit{replication factor} or \(RF\). \(RF = 3\) would therefore mean that each piece of data must exist on 3 nodes.
 
