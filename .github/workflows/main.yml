@@ -1,0 +1,45 @@
+name: Build PDF
+on: push
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Compile LaTeX document
+      uses: xu-cheng/texlive-action@v2
+      with:
+        scheme: full
+        run: ./build.sh
+    - name: Upload PDF as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: thesis
+        path: thesis.pdf
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Deploy on orphan branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./thesis
+          publish_branch: build
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+  clean:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: thesis
