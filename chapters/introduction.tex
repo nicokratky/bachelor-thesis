@@ -13,12 +13,12 @@ The cloud computing paradigm emerged in the recent decade and provides ``ubiquit
 
 All three of these service models have one thing in common: they profit from elasticity. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the k8ssandra database for different elasticity strategies.
 
-\section{Problem Statement}
-\label{sec:problem-statement}
-
-The main goal of this thesis is to implement an elasticity strategy that combines vertical scaling with horizontal scaling. This elasticity strategy should be implemented using the Polaris SLO framework. This to be implemented strategy will be from now on called ``diagonal elasticity strategy''.
+\section{Contribution}
+\label{sec:contribution}
 
 As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes, for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
+
+The main contribution of this thesis to the state of the art is an implementation of an elasticity strategy that combines vertical scaling with horizontal scaling. The primary target of this elasticity strategy is a k8ssandra cluster. The elasticity strategy is implemented using the Polaris SLO framework and will be from now on called ``diagonal elasticity strategy''.
 
 \section{Structure of the Thesis}
 \label{sec:structure}
