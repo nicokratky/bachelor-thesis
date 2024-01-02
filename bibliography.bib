@@ -1,3 +1,54 @@
+@inproceedings{abramovaEvaluatingCassandraScalability2014,
+  title = {Evaluating {{Cassandra Scalability}} with {{YCSB}}},
+  booktitle = {Database and {{Expert Systems Applications}}},
+  author = {Abramova, Veronika and Bernardino, Jorge and Furtado, Pedro},
+  editor = {Decker, Hendrik and Lhotsk{\'a}, Lenka and Link, Sebastian and Spies, Marcus and Wagner, Roland R.},
+  year = {2014},
+  series = {Lecture {{Notes}} in {{Computer Science}}},
+  pages = {199--207},
+  publisher = {{Springer International Publishing}},
+  address = {{Cham}},
+  doi = {10.1007/978-3-319-10085-2_18},
+  abstract = {NoSQL data stores appeared to fill a gap in the database market: that of highly scalable data storage that can be used for simple storage and retrieval of key-indexed data while allowing easy data distribution over a possibly large number of servers. Cassandra has been pinpointed as one of the most efficient and scalable among currently existing NoSQL engines. Scalability of these engines means that, by adding nodes, we could have more served requests with the same performance and more nodes could result in reduced execution time of requests. However, we will see that adding nodes not always results in performance increase and we investigate how the workload, database size and the level of concurrency are related to the achieved scaling level. We will overview Cassandra data store engine, and then we evaluate experimentally how it behaves concerning scaling and request time speedup. We use the YCSB {\textendash} Yahoo! Cloud Serving Benchmark for these experiments.},
+  isbn = {978-3-319-10085-2},
+  langid = {english},
+  keywords = {Cassandra,NoSQL,related work,Scalability,YCSB},
+  file = {/Users/nkratky/Zotero/storage/BIFV6BJG/Abramova et al. - 2014 - Evaluating Cassandra Scalability with YCSB.pdf}
+}
+
+@inproceedings{abramovaTestingCloudBenchmark2014,
+  title = {Testing {{Cloud Benchmark Scalability}} with {{Cassandra}}},
+  booktitle = {2014 {{IEEE World Congress}} on {{Services}}},
+  author = {Abramova, Veronika and Bernardino, Jorge and Furtado, Pedro},
+  year = {2014},
+  month = jun,
+  pages = {434--441},
+  issn = {2378-3818},
+  doi = {10.1109/SERVICES.2014.81},
+  urldate = {2023-12-29},
+  abstract = {NoSQL databases were developed as highly scalable databases that allow easy data distribution over a number of servers. With the increased interest of researchers and companies in non-relational technology, NoSQL databases became widely used and a common belief emerged defending that those engines scale well. This means that the use of more nodes would result in reduced execution time of requests and the system would scale adequately, by adding nodes proportionally to data size and load. However, sometimes, adding nodes may not result in improvement of request-serving time. Therefore, it is useful to investigate how different factors, such as workload, data size and number of simultaneous sessions influence scaling capabilities. We will review the architecture of Cassandra, which is known for being one of the most efficient NoSQL engines, and analyze its scalability, using the Yahoo Cloud Serving Benchmark. The results will allow a better understanding of scalability and scalability limitations in that type of environment.},
+  keywords = {related work},
+  file = {/Users/nkratky/Zotero/storage/JQTI8IS4/Abramova et al. - 2014 - Testing Cloud Benchmark Scalability with Cassandra.pdf;/Users/nkratky/Zotero/storage/7ZB7YBFS/6903301.html}
+}
+
+@inproceedings{agrawalDatabaseScalabilityElasticity2011,
+  title = {Database {{Scalability}}, {{Elasticity}}, and {{Autonomy}} in the {{Cloud}}},
+  booktitle = {Database {{Systems}} for {{Advanced Applications}}},
+  author = {Agrawal, Divyakant and El Abbadi, Amr and Das, Sudipto and Elmore, Aaron J.},
+  editor = {Yu, Jeffrey Xu and Kim, Myoung Ho and Unland, Rainer},
+  year = {2011},
+  series = {Lecture {{Notes}} in {{Computer Science}}},
+  pages = {2--15},
+  publisher = {{Springer}},
+  address = {{Berlin, Heidelberg}},
+  doi = {10.1007/978-3-642-20149-3_2},
+  abstract = {Cloud computing has emerged as an extremely successful paradigm for deploying web applications. Scalability, elasticity, pay-per-use pricing, and economies of scale from large scale operations are the major reasons for the successful and widespread adoption of cloud infrastructures. Since a majority of cloud applications are data driven, database management systems (DBMSs) powering these applications form a critical component in the cloud software stack. In this article, we present an overview of our work on instilling these above mentioned ``cloud features'' in a database system designed to support a variety of applications deployed in the cloud: designing scalable database management architectures using the concepts of data fission and data fusion, enabling lightweight elasticity using low cost live database migration, and designing intelligent and autonomic controllers for system management without human intervention.},
+  isbn = {978-3-642-20149-3},
+  langid = {english},
+  keywords = {autonomic systems,Cloud computing,elasticity,related work,scalability},
+  file = {/Users/nkratky/Zotero/storage/3U2N7ZAK/Agrawal et al. - 2011 - Database Scalability, Elasticity, and Autonomy in .pdf}
+}
+
 @article{al-dhuraibiElasticityCloudComputing2018,
   title = {Elasticity in {{Cloud Computing}}: {{State}} of the {{Art}} and {{Research Challenges}}},
   shorttitle = {Elasticity in {{Cloud Computing}}},
@@ -33,6 +84,18 @@
   file = {/Users/nkratky/Zotero/storage/D44TQNHF/Armbrust et al. - Above the Clouds A Berkeley View of Cloud Computi.pdf}
 }
 
+@mastersthesis{baakindAutomaticScalingCassandra2013,
+  title = {Automatic Scaling of {{Cassandra}} Clusters},
+  author = {Baakind, Tor Andreas},
+  year = {2013},
+  urldate = {2023-12-29},
+  abstract = {The purpose of this thesis is to create an automatic scaling implementation for Cassandra clusters. The automatic scaler should never lower the overall performance of the cluster in a way that results in a bad user experience. It should also be able to successfully scale up and down nodes, and the cluster should continue as if nothing happened. Last but not least, it is desirable that the automatic scaler performs equally, or better than, the person who is in charge of administrating the database. In this thesis we have developed an early version of an autoscaler that may run alongside a Cassandra instance. The implementation is split into two separate implementations: a master-, and an agent-implementation. The master will be deployed to the same server as the application using the cluster, even though this is not required. The agent implementation will be deployed to, and run alongside, all nodes that are a part of the cluster. The agent will monitor the node`s resource usage, and send messages back to the master if the usage increases above, or decreases below certain thresholds. We performed a set of test cases to prove that the implementation works as intended. The test cases recorded the nodes resource-usage to determine the impact our implementation makes to the overall performance.},
+  langid = {english},
+  keywords = {related work},
+  annotation = {Accepted: 2013-09-12T10:59:10Z},
+  file = {/Users/nkratky/Zotero/storage/VUI4DIE7/Baakind - 2013 - Automatic scaling of Cassandra clusters.pdf}
+}
+
 @misc{ChangingHeapSize,
   title = {Changing Heap Size Parameters | {{DSE}} 6.8 {{Admin}} Guide},
   urldate = {2023-06-06},
@@ -55,6 +118,16 @@
   doi = {10.1145/1734160.1734162},
   urldate = {2023-11-30},
   file = {/Users/nkratky/Zotero/storage/C6S2AMTV/Chiu - 2010 - Elasticity in the cloud.pdf}
+}
+
+@article{doryMeasuringElasticityCloud2011,
+  title = {Measuring {{Elasticity}} for {{Cloud Databases}}},
+  author = {Dory, Thibault and Mej{\i}as, Boris and Roy, Peter Van and Tran, Nam-Luc},
+  year = {2011},
+  journal = {CLOUD COMPUTING},
+  abstract = {The rise of the Internet and the multiplication of data sources have multiplied the number of ``Bigdata'' storage problems. These data sets are not only very big but also tend to grow very fast, sometimes in a short period. Distributed databases that work well for such data sets need to be not only scalable but also elastic to ensure a fast response to growth in demand of computing power or storage. The goal of this article is to present measurement results that characterize the elasticity of three databases. We have chosen Cassandra, HBase, and mongoDB as three representative popular horizontally scalable NoSQL databases that are in production use. We have made measurements under realistic loads up to 48 nodes, using the Wikipedia database to create our dataset and using the Rackspace cloud infrastructure. We define precisely our methodology and we introduce a new dimensionless measure for elasticity to allow uniform comparisons of different databases at different scales. Our results show clearly that the technical choices taken by the databases have a strong impact on the way they react when new nodes are added to the clusters.},
+  langid = {english},
+  file = {/Users/nkratky/Zotero/storage/BLD49W67/Dory et al. - 2011 - Measuring Elasticity for Cloud Databases.pdf}
 }
 
 @article{dustdarPrinciplesElasticProcesses2011,
@@ -158,6 +231,24 @@
   file = {/Users/nkratky/Zotero/storage/LT3IL3FA/simplifying-cassandra-heap-size-allocation-e39628efd7e6.html}
 }
 
+@inproceedings{konstantinouElasticityNoSQLDatabases2011,
+  title = {On the Elasticity of {{NoSQL}} Databases over Cloud Management Platforms},
+  booktitle = {Proceedings of the 20th {{ACM}} International Conference on {{Information}} and Knowledge Management},
+  author = {Konstantinou, Ioannis and Angelou, Evangelos and Boumpouka, Christina and Tsoumakos, Dimitrios and Koziris, Nectarios},
+  year = {2011},
+  month = oct,
+  series = {{{CIKM}} '11},
+  pages = {2385--2388},
+  publisher = {{Association for Computing Machinery}},
+  address = {{New York, NY, USA}},
+  doi = {10.1145/2063576.2063973},
+  urldate = {2023-12-30},
+  abstract = {NoSQL databases focus on analytical processing of large scale datasets, offering increased scalability over commodity hardware. One of their strongest features is elasticity, which allows for fairly portioned premiums and high-quality performance and directly applies to the philosophy of a cloud-based platform. Yet, the process of adaptive expansion and contraction of resources usually involves a lot of manual effort during cluster configuration. To date, there exists no comparative study to quantify this cost and measure the efficacy of NoSQL engines that offer this feature over a cloud provider. In this work, we present a cloud-enabled framework for adaptive monitoring of NoSQL systems. We perform a study of the elasticity feature on some of the most popular NoSQL databases over an open-source cloud platform. Based on these measurements, we finally present a prototype implementation of a decision making system that enables automatic elastic operations of any NoSQL engine based on administrator or application-specified constraints.},
+  isbn = {978-1-4503-0717-8},
+  keywords = {cassandra,cloud computing,hbase,nosql,related work,riak},
+  file = {/Users/nkratky/Zotero/storage/XKY9IQ8X/Konstantinou et al. - 2011 - On the elasticity of NoSQL databases over cloud ma.pdf}
+}
+
 @misc{Kubernetes24Volume2022,
   title = {Kubernetes 1.24: {{Volume Expansion Now A Stable Feature}}},
   shorttitle = {Kubernetes 1.24},
@@ -170,6 +261,23 @@
   howpublished = {https://kubernetes.io/blog/2022/05/05/volume-expansion-ga/},
   langid = {english},
   file = {/Users/nkratky/Zotero/storage/LFD3MKS4/volume-expansion-ga.html}
+}
+
+@article{kuhlenkampBenchmarkingScalabilityElasticity2014,
+  title = {Benchmarking Scalability and Elasticity of Distributed Database Systems},
+  author = {Kuhlenkamp, J{\"o}rn and Klems, Markus and R{\"o}ss, Oliver},
+  year = {2014},
+  month = aug,
+  journal = {Proceedings of the VLDB Endowment},
+  volume = {7},
+  number = {12},
+  pages = {1219--1230},
+  issn = {2150-8097},
+  doi = {10.14778/2732977.2732995},
+  urldate = {2023-12-30},
+  abstract = {Distributed database system performance benchmarks are an important source of information for decision makers who must select the right technology for their data management problems. Since important decisions rely on trustworthy experimental data, it is necessary to reproduce experiments and verify the results. We reproduce performance and scalability benchmarking experiments of HBase and Cassandra that have been conducted by previous research and compare the results. The scope of our reproduced experiments is extended with a performance evaluation of Cassandra on different Amazon EC2 infrastructure configurations, and an evaluation of Cassandra and HBase elasticity by measuring scaling speed and performance impact while scaling.},
+  keywords = {related work},
+  file = {/Users/nkratky/Zotero/storage/V2M9NVYX/Kuhlenkamp et al. - 2014 - Benchmarking scalability and elasticity of distrib.pdf}
 }
 
 @article{lakshmanCassandraDecentralizedStructured2010,
@@ -204,7 +312,26 @@
   file = {/Users/nkratky/Zotero/storage/TDZ2CNJ7/Larsson et al. - 2019 - Quality-Elasticity Improved Resource Utilization,.pdf;/Users/nkratky/Zotero/storage/GNY4SAJX/8831198.html}
 }
 
-@inproceedings{lehrigScalabilityElasticityEfficiency2015,
+@inproceedings{laubisCloudAdoptionFineGrained2016,
+  title = {Cloud {{Adoption}} by {{Fine-Grained Resource Adaptation}}: {{Price Determination}} of {{Diagonally Scalable IaaS}}},
+  shorttitle = {Cloud {{Adoption}} by {{Fine-Grained Resource Adaptation}}},
+  booktitle = {Advances in {{Service-Oriented}} and {{Cloud Computing}}},
+  author = {Laubis, Kevin and Simko, Viliam and Schuller, Alexander},
+  editor = {Celesti, Antonio and Leitner, Philipp},
+  year = {2016},
+  series = {Communications in {{Computer}} and {{Information Science}}},
+  pages = {249--257},
+  publisher = {{Springer International Publishing}},
+  address = {{Cham}},
+  doi = {10.1007/978-3-319-33313-7_19},
+  abstract = {Cloud computing is a suitable solution for addressing the uncertainty of resource demand by allowing dynamic resource adjustment. However, most IaaS cloud providers offer their services with a limited granularity at rather slow scaling speeds and flat pricing schemes. Diagonal scaling techniques can offer a more adaptive and fine-grained service with a likewise granular pricing model. Before offering such an adaptive service, cloud providers need a comparison between horizontal and diagonal scaling models to estimate how resource prices can be increased while still staying competitive. In this paper we examine the resource reduction potential of diagonal scaling in comparison to conventional horizontal approaches. Given an empirical load pattern of a web application provider we find a CPU allocation reduction potential of 8.05~\% compared to the conventional service. Given a more fine-grained pricing model, we find an additional revenue potential for diagonal scaling of 9.01~\% when following a competitor based pricing regime.},
+  isbn = {978-3-319-33313-7},
+  langid = {english},
+  keywords = {Adoption,Cloud computing,IaaS,Pricing,related work,Scaling},
+  file = {/Users/nkratky/Zotero/storage/NJKDK9BP/Laubis et al. - 2016 - Cloud Adoption by Fine-Grained Resource Adaptation.pdf}
+}
+
+@inproceedings{lehrigScalabilityElasticityEfficiency2015a,
   title = {Scalability, {{Elasticity}}, and {{Efficiency}} in {{Cloud Computing}}: A {{Systematic Literature Review}} of {{Definitions}} and {{Metrics}}},
   shorttitle = {Scalability, {{Elasticity}}, and {{Efficiency}} in {{Cloud Computing}}},
   booktitle = {Proceedings of the 11th {{International ACM SIGSOFT Conference}} on {{Quality}} of {{Software Architectures}}},
@@ -216,11 +343,11 @@
   publisher = {{Association for Computing Machinery}},
   address = {{New York, NY, USA}},
   doi = {10.1145/2737182.2737185},
-  urldate = {2023-11-30},
+  urldate = {2023-12-30},
   abstract = {Context: In cloud computing, there is a multitude of definitions and metrics for scalability, elasticity, and efficiency. However, stakeholders have little guidance for choosing fitting definitions and metrics for these quality properties, thus leading to potential misunderstandings. For example, cloud consumers and providers cannot negotiate reliable and quantitative service level objectives directly understood by each stakeholder. Objectives: Therefore, we examine existing definitions and metrics for these quality properties from the viewpoint of cloud consumers, cloud providers, and software architects with regard to commonly used concepts. Methods: We execute a systematic literature review (SLR), reproducibly collecting common concepts in definitions and metrics for scalability, elasticity, and efficiency. As quality selection criteria, we assess whether existing literature differentiates the three properties, exemplifies metrics, and considers typical cloud characteristics and cloud roles. Results: Our SLR yields 418 initial results from which we select 20 for in-depth evaluation based on our quality selection criteria. In our evaluation, we recommend concepts, definitions, and metrics for each property. Conclusions: Software architects can use our recommendations to analyze the quality of cloud computing applications. Cloud providers and cloud consumers can specify service level objectives based on our metric suggestions.},
   isbn = {978-1-4503-3470-9},
-  keywords = {cloud,cloud computing,definitions,efficiency,elasticity,metrics,scalability,systematic literature review},
-  file = {/Users/nkratky/Zotero/storage/C4S7U952/Lehrig et al. - 2015 - Scalability, Elasticity, and Efficiency in Cloud C.pdf}
+  keywords = {cloud,cloud computing,definitions,efficiency,elasticity,metrics,related work,scalability,systematic literature review},
+  file = {/Users/nkratky/Zotero/storage/HXXUQ35R/Lehrig et al. - 2015 - Scalability, Elasticity, and Efficiency in Cloud C.pdf}
 }
 
 @article{leymannCloudComputing2011,
@@ -242,6 +369,24 @@
   file = {/Users/nkratky/Zotero/storage/LPXMI4Z8/Leymann - 2011 - Cloud Computing.pdf}
 }
 
+@article{lorido-botranReviewAutoscalingTechniques2014,
+  title = {A {{Review}} of {{Auto-scaling Techniques}} for {{Elastic Applications}} in {{Cloud Environments}}},
+  author = {{Lorido-Botran}, Tania and {Miguel-Alonso}, Jose and Lozano, Jose A.},
+  year = {2014},
+  month = dec,
+  journal = {Journal of Grid Computing},
+  volume = {12},
+  number = {4},
+  pages = {559--592},
+  issn = {1572-9184},
+  doi = {10.1007/s10723-014-9314-7},
+  urldate = {2023-12-30},
+  abstract = {Cloud computing environments allow customers to dynamically scale their applications. The key problem is how to lease the right amount of resources, on a pay-as-you-go basis. Application re-dimensioning can be implemented effortlessly, adapting the resources assigned to the application to the incoming user demand. However, the identification of the right amount of resources to lease in order to meet the required Service Level Agreement, while keeping the overall cost low, is not an easy task. Many techniques have been proposed for automating application scaling. We propose a classification of these techniques into five main categories: static threshold-based rules, control theory, reinforcement learning, queuing theory and time series analysis. Then we use this classification to carry out a literature review of proposals for auto-scaling in the cloud.},
+  langid = {english},
+  keywords = {Auto-scaling,Cloud computing,related work,Scalable applications,Service level agreement},
+  file = {/Users/nkratky/Zotero/storage/4L9WVC8J/Lorido-Botran et al. - 2014 - A Review of Auto-scaling Techniques for Elastic Ap.pdf}
+}
+
 @techreport{mellNISTDefinitionCloud2011a,
   title = {The {{NIST Definition}} of {{Cloud Computing}}},
   author = {Mell, Peter and Grance, Tim},
@@ -254,6 +399,24 @@
   abstract = {Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction. This cloud model is composed of five essential characteristics, three service models, and four deployment models.},
   langid = {english},
   file = {/Users/nkratky/Zotero/storage/87JQ93YP/Mell and Grance - 2011 - The NIST Definition of Cloud Computing.pdf}
+}
+
+@inproceedings{miyokawaElasticityImprovementCassandra2016a,
+  title = {Elasticity {{Improvement}} of {{Cassandra}}},
+  booktitle = {Proceedings of the 10th {{International Conference}} on {{Ubiquitous Information Management}} and {{Communication}}},
+  author = {Miyokawa, Shohei and Tokuda, Taiki and Yamaguchi, Saneyasu},
+  year = {2016},
+  month = jan,
+  series = {{{IMCOM}} '16},
+  pages = {1--7},
+  publisher = {{Association for Computing Machinery}},
+  address = {{New York, NY, USA}},
+  doi = {10.1145/2857546.2857584},
+  urldate = {2023-12-29},
+  abstract = {Load size for a service on the Internet changes remarkably every hour. Thus, it is expected for service system scales to change dynamically according to load size. KVS (key-value store) is a scalable DBMS (database management system) widely used in large-scale Internet services. In this paper, we focus on Cassandra, a popular open-source KVS implementation, and discuss methods for improving dynamic scaling performance. First, we evaluate node joining time, which is the time to complete adding a node to a running KVS system, and show that its bottleneck process is disk I/O in the existing nodes. Second, we analyze disk accesses in the bottleneck nodes and indicate that some heavily accessed files cause a large number of disk accesses. Third, we propose a method for improving elasticity, which means decreasing node adding and removing time, of Cassandra. The method reduces disk accesses significantly by keeping the heavily accessed file in the page cache. Lastly, we evaluate elasticity of our methods. Our experimental results demonstrate that the method can improve the scaling-up and scaling-down performance of Cassandra.},
+  isbn = {978-1-4503-4142-4},
+  keywords = {Cassandra,Key-Value Store,page cache,related work},
+  file = {/Users/nkratky/Zotero/storage/T5CTEKF5/Miyokawa et al. - 2016 - Elasticity Improvement of Cassandra.pdf}
 }
 
 @article{nasticSLOCServiceLevel2020,
@@ -317,6 +480,61 @@
   archiveprefix = {arxiv},
   keywords = {{Computer Science - Distributed, Parallel, and Cluster Computing}},
   file = {/Users/nkratky/Zotero/storage/U5EQINTT/Qu et al. - 2017 - Auto-scaling Web Applications in Clouds A Taxonom.pdf;/Users/nkratky/Zotero/storage/7938CMUX/1609.html}
+}
+
+@inproceedings{seyboldElasticityScalableDatabases2016,
+  title = {Is Elasticity of Scalable Databases a {{Myth}}?},
+  booktitle = {2016 {{IEEE International Conference}} on {{Big Data}} ({{Big Data}})},
+  author = {Seybold, Daniel and Wagner, Nicolas and Erb, Benjamin and Domaschka, J{\"o}rg},
+  year = {2016},
+  month = dec,
+  pages = {2827--2836},
+  doi = {10.1109/BigData.2016.7840931},
+  urldate = {2023-12-29},
+  abstract = {The age of cloud computing has introduced all the mechanisms needed to elastically scale distributed, cloud-enabled applications. At roughly the same time, NoSQL databases have been proclaimed as the scalable alternative to relational databases. Since then, NoSQL databases are a core component of many large-scale distributed applications. This paper evaluates the scalability and elasticity features of the three widely used NoSQL database systems Couchbase, Cassandra and MongoDB under various workloads and settings using throughput and latency as metrics. The numbers show that the three database systems have dramatically different baselines with respect to both metrics and also behave unexpected when scaling out. For instance, while Couchbase's throughput increases by 17\% when scaled out from 1 to 4 nodes, MongoDB's throughput decreases by more than 50\%. These surprising results show that not all tested NoSQL databases do scale as expected and even worse, in some cases scaling harms performances.},
+  keywords = {related work},
+  file = {/Users/nkratky/Zotero/storage/283957VM/Seybold et al. - 2016 - Is elasticity of scalable databases a Myth.pdf;/Users/nkratky/Zotero/storage/CCBYIT2R/7840931.html}
+}
+
+@inproceedings{shirinbabPerformanceComparisonHorizontal2018,
+  title = {Performance {{Comparison}} between {{Horizontal Scaling}} of {{Hypervisor}} and {{Container Based Virtualization}} Using {{Cassandra NoSQL Database}}},
+  booktitle = {3rd {{International Conference}} on {{Virtualization Application}} and {{Technology}} ({{ICVAT}} 2018, {{Nov}}.16-18, {{Sanya}}, {{China}}},
+  author = {Shirinbab, Sogand and Lundberg, Lars and Casalicchio, Emiliano},
+  year = {2018},
+  urldate = {2023-12-29},
+  abstract = {DiVA portal is a finding tool for research publications and student theses written at the following 50 universities and research institutions.},
+  langid = {english},
+  keywords = {related work},
+  file = {/Users/nkratky/Zotero/storage/9YQACHBJ/Shirinbab et al. - 2018 - Performance Comparison between Horizontal Scaling .pdf}
+}
+
+@article{singhResearchAutoScalingWeb2019,
+  title = {Research on {{Auto-Scaling}} of {{Web Applications}} in {{Cloud}}: {{Survey}}, {{Trends}} and {{Future Directions}}},
+  shorttitle = {Research on {{Auto-Scaling}} of {{Web Applications}} in {{Cloud}}},
+  author = {Singh, Parminder and Gupta, Pooja and Jyoti, Kiran and Nayyar, Anand},
+  year = {2019},
+  month = may,
+  journal = {Scalable Computing: Practice and Experience},
+  volume = {20},
+  number = {2},
+  pages = {399--432},
+  issn = {1895-1767},
+  doi = {10.12694/scpe.v20i2.1537},
+  urldate = {2023-12-30},
+  abstract = {Cloud computing emerging environment attracts many applications providers to deploy web applications on cloud data centers. The primary area of attraction is elasticity, which allows to auto-scale the resources on-demand. However, web applications usually have dynamic workload and hard to predict. Cloud service providers and researchers are working to reduce the cost while maintaining the Quality of Service (QoS). One of the key challenges for web application in cloud computing is auto-scaling. The auto-scaling in cloud computing is still in infancy and required detail investigation of taxonomy, approach and types of resources mapped to the current research. In this article, we presented the literature survey for auto-scaling techniques of web applications in cloud computing. This survey supports the research community to find the requirements in auto-scaling techniques. We present a taxonomy of reviewed articles with parameters such as auto-scaling techniques, approach, resources, monitoring tool, experiment, workload, and metric, etc. Based on the analysis, we proposed the new areas of research in this direction.},
+  copyright = {Copyright (c)},
+  langid = {english}
+}
+
+@book{srinadhuniPerformanceEvaluationCassandra2018,
+  title = {Performance {{Evaluation}} of {{Cassandra Scalability}} on {{Amazon EC2}}},
+  author = {Srinadhuni, Siddhartha},
+  year = {2018},
+  urldate = {2023-12-29},
+  abstract = {DiVA portal is a finding tool for research publications and student theses written at the following 50 universities and research institutions.},
+  langid = {english},
+  keywords = {related work},
+  file = {/Users/nkratky/Zotero/storage/L26YUWXN/Srinadhuni - 2018 - Performance Evaluation of Cassandra Scalability on.pdf}
 }
 
 @misc{TuningJavaResources,

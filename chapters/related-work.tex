@@ -1,2 +1,14 @@
 \chapter{Related Work}
 \label{ch:related-work}
+
+\section{Elasticity and Scalability in Cloud Computing}
+
+Kubernetes does allow for horizontal and vertical elasticity using their Horizontal\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} and Vertical Pod Autoscalers\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}}. While they are commonly used solutions, the used SLO is still tightly coupled to the elasticity action, which the Polaris SLO framework tries to prevent. Using the HPA and VPA in conjunction also brings its own problems, which led to the proposal of a Multidimensional Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/blob/master/multidimensional-pod-autoscaler/AEP.md}}.
+
+\citeauthor{laubisCloudAdoptionFineGrained2016} recognize the potential of diagonal scalability and introduce a fine-grained pricing model that allows cloud providers to increase prices while staying competitive \cite{laubisCloudAdoptionFineGrained2016}. They however do not apply their findings regarding diagonal scalability to an application.
+
+\section{Advanced Elasticity and Scalability of Databases}
+
+\citeauthor{baakindAutomaticScalingCassandra2013} implements an automatic scaling solution that is Cassandra specific \cite{baakindAutomaticScalingCassandra2013}. It adds and removes nodes to the cluster while minimizing performance and usage impacts. This work however does not cover vertical elasticity. \citeauthor{miyokawaElasticityImprovementCassandra2016a} present research regarding node join times and propose methods to reduce these \cite{miyokawaElasticityImprovementCassandra2016a}. Although a very interesting approach, they again only focus on horizontal scale-up and do not include vertical elasticity.
+
+\citeauthor{seyboldElasticityScalableDatabases2016} evaluate scaling and elasticity features of NoSQL database systems, including Cassandra \cite{seyboldElasticityScalableDatabases2016}. They perform different benchmarks on static clusters as well as during scale-out scenarios. They conclude that Cassandra, in contrast to other NoSQL systems such as Couchbase and MongoDB, benefits from large cluster sizes in general while overload situations are not resolved in a favorable way through scale-out. \citeauthor{kuhlenkampBenchmarkingScalabilityElasticity2014} also perform different benchmarking tests of distributed database systems \cite{kuhlenkampBenchmarkingScalabilityElasticity2014}. They not only focus on horizontal scalability but also perform tests for vertical scalability. They conclude that while it is possible to scale Cassandra linearly, it largely depens on the EC2 instance type. However, they do not perform tests with combined horizontal and vertical scaling.
