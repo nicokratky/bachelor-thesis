@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-The cloud computing paradigm emerged in the recent decade and provides ``ubiquitous, convenient, on-demand network access to a shared pool of configurable resources that can be rapidly provisioned and released with minimal management effort or service provider interaction'' \cite{mellNISTDefinitionCloud2011a}. These properties together with a pay-per-use principle motivated many customers to adopt this technology. Cloud computing can be differentiated in three basic service models:
+The cloud computing paradigm emerged in the 2000s and provides ``ubiquitous, convenient, on-demand network access to a shared pool of configurable resources that can be rapidly provisioned and released with minimal management effort or service provider interaction'' \cite{mellNISTDefinitionCloud2011a}. These properties together with a pay-per-use principle motivated many customers to adopt this technology. Cloud computing can be differentiated in three basic service models:
 
 \begin{enumerate}
     \item \textbf{Infrastructure as a Service (IaaS)}. This model enables customers to provision processing and storage infrastructure to run arbitrary software. While the consumer has control over both application and operating system, they are not responsible for controling and maintaining the underlying infrastructure. A well known example is Amazon Elastic Cloud Compute (EC2)\footnote{\url{https://aws.amazon.com/ec2/}}.
@@ -11,14 +11,25 @@ The cloud computing paradigm emerged in the recent decade and provides ``ubiquit
     \item \textbf{Software as a Service (SaaS)}. This model allows users to use a provided application that runs on cloud infrastructure. Users do not control the application nor the underlying infrastructure. A suitable example would include Astra DB by DataStax\footnote{\url{https://www.datastax.com/products/datastax-astra}}.
 \end{enumerate}
 
-All three of these service models have one thing in common: they profit from elasticity. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the k8ssandra database for different elasticity strategies.
+All three of these service models have one thing in common: they profit from elasticity, which is the degree to which a system is able to adopt to workload changes by adding and removing resources automatically such that the resource supply matches the demand as closely as possible \cite{herbstElasticityCloudComputing2013}. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the K8ssandra database for different elasticity strategies.
+
+\section{Motivation}
+\label{sec:motivation}
+
+As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes, for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. This limitation may result in suboptimal scaling performance, as actions taken by either Kubernetes Autoscaler impact the application in a different way. Generally speaking, some applications need both elasticity dimensions, horizontal and vertical, to optimally adapt to current demand. K8ssandra for example, which is the application used throughout this thesis, needs more nodes to scale its maximum achievable throughput. Vertical scaling, however, can be used to tune a K8ssandra cluster's resources. Combining the benefits of both dimensions by designing and implementing a diagonal elasticity strategy is the ultimate goal of this thesis.
 
 \section{Contribution}
 \label{sec:contribution}
 
-As of now, common automatic scaling mechanisms include horizontal and vertical scaling. Kubernetes, for example, has solutions to both. The Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}} updates the amount of deployed pods to match current demand. Likewise, the Vertical Pod Autoscaler\footnote{\raggedright\url{https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler}} tries to set resource requests and limits based on current usage. Both of these are however limited to their single dimension. For some applications it can be definitely advantageous to be scaled both horizontally and vertically.
+The main contributions of thesis include:
 
-The main contribution of this thesis to the state of the art is an implementation of an elasticity strategy that combines vertical scaling with horizontal scaling. The primary target of this elasticity strategy is a k8ssandra cluster. The elasticity strategy is implemented using the Polaris SLO framework and will be from now on called ``diagonal elasticity strategy''.
+\begin{enumerate}
+    \item A custom K8ssandra cluster performance metric. This metric contains all information needed for scaling clusters both horizontally and vertically.
+
+    \item The SLO controller uses the information of the custom metric and calculates based on predefined target values if scaling actions need to be taken.
+
+    \item A diagonal elasticity strategy combines traditional horizontal and vertical scaling. It can decide which option is best to align the cluster configuration with current usage patterns.
+\end{enumerate}
 
 \section{Structure of the Thesis}
 \label{sec:structure}
@@ -26,7 +37,7 @@ The main contribution of this thesis to the state of the art is an implementatio
 \begin{itemize}
     \item \Cref{ch:background} introduces concepts and terminology used throughout this thesis. It discusses the concepts of elasticity in cloud computing and introduces the framework that is used to implement elasticity strategies.
 
-    \item \Cref{ch:implementation} presents the implementation details of the project. It first shows the used metrics, then introduces the different service level objectives and finally discusses the elasticity strategies.
+    \item \Cref{ch:components} presents the implementation details of the project. It first shows the used metrics, then introduces the different service level objectives and finally discusses the elasticity strategies.
 
     \item \Cref{ch:evaluation} evaluates the implemented elasticity strategies. This is done by running stress tests in different scenarios.
 

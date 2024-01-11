@@ -8,11 +8,11 @@ This chapter introduces some terminology and concepts that are used throughout t
 
 Elasticity is one of the core concepts that solves a big problem of cloud computing: providing limited resources for potentially unlimited use. The solution is to scale workloads up and down as needed, to claim resources when bigger load is experienced and release resources when they are not needed, therefore making them available to other workloads.
 
-The term elasticity in computing is conceptually similiar to the term in physics. Wikipedia, for example, defines elasticity as follows: ``In physics and materials science, elasticity is the ability of a body to resist a distorting influence and to return to its original size and shape when that influence or force is removed. Solid objects will deform when adequate loads are applied to them; if the material is elastic, the object will return to its initial shape and size after removal.''\footnote{\url{https://en.wikipedia.org/wiki/Elasticity_(physics)}}
+The term elasticity in computing is conceptually similiar to the term in physics. Dating back to \citeyear{hookLecturesPotentiaRestitutiva1678}, \citefirstlastauthor{hookLecturesPotentiaRestitutiva1678} formulated a first definition of elasticity: \textit{``Ut tensio sic vis''} which literally translates to ``As extension, so force'' \cite{hookLecturesPotentiaRestitutiva1678}. This law results in the fact that when a elastic material experiences an external force and is therefore deformed, it also experiences internal forces that restore the material to its original shape when the external force is no longer present.
 
 The formula - which takes a more mathematical approach - of elasticity can be defined as \[ e(Y, X) = \diff{Y}{X} \frac{X}{Y}, \] where \(e(Y, X)\) is the elasticity of \(Y\) with respect to \(X\) \cite{dustdarPrinciplesElasticProcesses2011}.
 
-To illustrate this, imagine an application that serves some content to its customers. These customers typically interact with the application during the day. This means that the application experiences significantly less load during the night. Once people wake up in the morning the load rises until it peaks in the afternoon. Then the load falls again when people go to sleep in the evening. Using this example it can be seen in \cref{fig:elasticity-application-no-scaling} that during the night the resources of the application are overprovisioned and during the day the resoures are underprovisioned.
+To illustrate this, imagine an application that serves some content to its customers. These customers typically interact with the application during the day. This means that the application experiences significantly less load during the night. Once people wake up in the morning the load rises until it peaks in the afternoon. Then the load falls again when people go to sleep in the evening. Using this example it can be seen in \Cref{fig:elasticity-application-no-scaling} that during the night the resources of the application are overprovisioned and during the day the resoures are underprovisioned.
 
 \begin{figure}
     \centering
@@ -21,7 +21,7 @@ To illustrate this, imagine an application that serves some content to its custo
     \label{fig:elasticity-application-no-scaling}
 \end{figure}
 
-If the concept of elasticity is applied to this example, resources can be released during the night (so called \textit{scale-in}) and more resources can be claimed as they are needed during the day (so called \textit{scale-out}). This is illustrated in \cref{fig:elasticity-application-scaling}.
+If the concept of elasticity is applied to this example, resources can be released during the night (so called \textit{scale-in}) and more resources can be claimed as they are needed during the day (so called \textit{scale-out}). This is illustrated in \Cref{fig:elasticity-application-scaling}.
 
 \begin{figure}
     \centering
@@ -38,7 +38,7 @@ The resource dimension of elasticity is mistakenly often used synonymously with 
 
 What makes this definition easily mistaken, is that it solely considers the aquired resources and not the consequently incurred costs or changing quality.
 
-% The ability to acquire resources as you need them and release resources when you no longer need them \cite{ElasticityAWSWellArchitected}.
+Prime examples for this elasticity dimension are horizontal and vertical scaling. Horizontal scaling adds and removes machines. Vertical scaling adapts resources of these machines, e.g. CPU and memory.
 
 \subsection{Cost Elasticity}
 
@@ -48,24 +48,28 @@ Amazon Web Services uses this elasticity dimension in their EC2 Spot Instances\f
 
 \subsection{Quality Elasticity}
 
-Similiar to the already discussed dimensions, quality elasticity is defined as letting software services adapt their mode of operastion to current operating conditions by providing results of varying output quality \cite{larssonQualityElasticityImprovedResource2019}. This means that when resource supply is low, the output quality also may be low. Likewise, if resource supply is sufficient, the output quality will also be high.
+Similiar to the already discussed dimensions, quality elasticity is defined as letting software services adapt their mode of operation to current conditions by providing results of varying output quality \cite{larssonQualityElasticityImprovedResource2019}. This means that when resource supply is low, the output quality also may be low. Likewise, if resource supply is sufficient, the output quality will also be high.
+
+A webshop provider could for example adjust the recommender engine based on current conditions. As product recommendations are proven to drive sales, a better recommendation results in higher quality. During low-demand times, recommendations could be tailored to the current customer by running a machine learning model. During peak hours, however, recommendations could be based on previously calculated results or dropped altogether. This approach was implemented by \citeauthor{larssonQualityElasticityImprovedResource2019} \cite{larssonQualityElasticityImprovedResource2019}.
 
 \section{Service Level Agreements and Service Level Objectives}
 
 In order to deliver services up to a certain standard, agreements between the service provider, typically the cloud provider, and the service consumers are made - so called \textit{Service Level Agreements (SLA)} \cite{emeakarohaLowLevelMetrics2010d}. Contained inside these SLAs are \textit{Service Level Objectives (SLO)}, which are a ``commitment to maintain a particular state of the service in a given period'' \cite{kellerWSLAFrameworkSpecifying2003}.
 
-SLOs are measurable values, e.g. an applications CPU usage or memory consumption, that have a specified operating target. In the case that this value is violated the supporting infrastructure of the application has to be either increased or decreased. This process of increasing or decreasing resources is called elasticity, which was further discussed in \cref{sec:elasticity}.
+SLOs are measurable guarantees, e.g. an application's CPU usage or memory consumption, that have a specified operating target. In the case that this value is violated the supporting infrastructure of the application has to be either increased or decreased. This process of increasing or decreasing resources is called elasticity, which was further discussed in \Cref{sec:elasticity}. The measurable guarantess are almost always based on metrics that the system or application exposes. Typically, these metrics are rather low-level, which makes mapping them to high-level SLOs a cumbersome task.
 
 \section{Polaris SLO Framework}
 \label{sec:polaris}
 
-The Polaris SLO Framework\footnote{\url{https://polaris-slo-cloud.github.io/polaris-slo-framework/}} is a framework that provides a way to bring high-level SLOs to the cloud. It tries to solve the limitation that modern cloud cloud providers only offer rudimentary support for high-level SLOs and customers often need to manually map them to low-level metrics such as CPU usage or memory consumption \cite{pusztaiSLOScriptNovel2021}.
+The Polaris SLO Framework\footnote{\url{https://polaris-slo-cloud.github.io/polaris-slo-framework/}} is a framework that provides a way to bring high-level SLOs to the cloud. It tries to solve the limitation that modern cloud providers only offer rudimentary support for high-level SLOs and customers often need to manually map them to low-level metrics such as CPU usage or memory consumption \cite{pusztaiSLOScriptNovel2021}.
 
-The authors of this framework introduce the concept of \textit{elasticity strategies}. An elasticity strategy is defined as any sequency of actions that adjust the amount of resources provisioned for a workload, their type or the workload configuration. The workload configuration adjustment is especially noteworthy, because workloads handled by Polaris can be affected in all three elasticity dimensions.
+The authors of this framework introduce the concept of \textit{elasticity strategies}. An elasticity strategy is defined as any sequence of actions that adjusts the amount of resources provisioned for a workload, their type or the workload configuration. The workload configuration adjustment is especially noteworthy, because workloads handled by Polaris can be affected in all three elasticity dimensions.
 
-Another unique feature of Polaris is its object model, which allows for orchestrator independence. This is achieved by encapsulating all data that is transmitted to the orchestrator into a \texttt{ApiObject} type.
+Another unique feature of Polaris is its object model, which allows for orchestrator independence. This is achieved by encapsulating all data that is transmitted to the orchestrator into a \texttt{ApiObject} type. This type acts as an entrypoint for the transformation service that the framework provides. Instances of classes of the Polaris SLO framework are transformed into plain JavaScript objects, which are then serialized into the required data format by an orchestrator-specific connector library. Every orchestrator uses different abstractions, therefore transforming objects into these abstractions is a necessary step to reach orchestrator independence. Currently, a transformation service for Kubernetes is provided by the authors of the Polaris SLO framework. This services handles the transformation to Kubernetes CRDs. Kubernetes Custom Resource Definitions (CRDs) are definitions of Custom Resources. A Custom Resource is some kind of data that does not match any preexisting object kinds within Kubernetes. These Custom Resources are necessary to allow Kubernetes to be as flexible as it is. Typically, they are used to encapsulate data in order to store and retrieve it through the Kubernetes API.
 
-Decoupling SLOs from elasticity strategies is also a feature that Polaris provides. Tight coupling is a charactaristic that is even observed in industry standard scaling mechanisms such as Kubernetes' Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}}. This autoscaler provides a CPU usage SLO which can only trigger horizontal elasticity, thus adding or removing CPU resources. To achieve this decoupling, Polaris utilizes an architecture that is depicted in \cref{fig:polaris-architecture}. This allows the controllers to focus on a single task, for example calculating SLO compliance. These individual components are then mapped using a SLO mapping type.
+Decoupling SLOs from elasticity strategies is also a feature that Polaris provides. Tight coupling is a charactaristic that is even observed in industry standard scaling mechanisms such as Kubernetes' Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}}. This autoscaler provides a CPU usage SLO which can only trigger horizontal elasticity, thus adding or removing machines. To achieve this decoupling, Polaris utilizes an architecture that is depicted in \Cref{fig:polaris-architecture}. The metrics controller provides raw and, as it is the case in this thesis, composed metrics, which are defined by the user. These metrics are then used by the SLO controller to compare the current state of the target against the desired state. If the SLO is violated, the specified elasticity strategy tries to bring the target back to SLO adherence. These single components are tied together using a SLO mapping, which specifies which SLO is used for which target component and which elasticity strategy shall be executed in the case of violation. 
+
+To ensure compability between a SLO and an elasticity strategy they must both accept the same output and input type, respectively. This type is called \texttt{SloOutput}. The framework provides a generic class \texttt{SloCompliance} which simply expresses the current percentage of conformance of the SLO. This allows for compatibility of as many SLOs and elasticity strategies as possible.
 
 \begin{figure}
     \centering
@@ -74,16 +78,16 @@ Decoupling SLOs from elasticity strategies is also a feature that Polaris provid
     \label{fig:polaris-architecture}
 \end{figure}
 
-\section{k8ssandra}
+\section{K8ssandra}
 \label{sec:k8ssandra}
 
 Cassandra is a popular wide-column store NoSQL database that was initially developed at Facebook and later integrated into the Apache Software Foundation\footnote{\url{https://cassandra.apache.org/_/cassandra-basics.html}\label{fn:cassandra-basics}} \cite{lakshmanCassandraDecentralizedStructured2010}. Its main features include being easily horizontally scalable, being fully distributed and its schema-less data approach.
 
-Being distributed means, that Cassandra is comprised of a set of nodes. Each nodes tasks and responsibilities are identical. Data is partitioned using a partition key and is replicated between nodes. How many times data is replicated is determined by the \textit{replication factor} or \(RF\). \(RF = 3\) would therefore mean that each piece of data must exist on 3 nodes.
+Being distributed means, that Cassandra is comprised of a set of nodes. Each node's tasks and responsibilities are identical. Data is partitioned using a partition key and is replicated between nodes. How many times data is replicated is determined by the \textit{replication factor} or \(RF\). \(RF = 3\) would therefore mean that each piece of data must exist on 3 nodes.
 
 Distributed data also comes with a certain cost. These drawbacks are formulated in the CAP theorem \cite{foxHarvestYieldScalable1999a}. CAP stands for consistency, availability and partition tolerance and the theorem states that databases which handle data in a distributed way can only provide two of these three guarantees. Cassandra, per default, is an AP database. This agreement, however, is configurable on a per-query basis. This means, that whatever consistency level is configured, it represents the minimum amount of nodes that must acknowledge an operation back to the query coordinator node to consider this operation successful.
 
-Queries can be made to any node. Cassandra does not have a main node that takes queries, instead any node that a client connects to takes over the role of coordinator for this specific query. This coordinator node then is responsible for querying other nodes for data in other partitions. This also implies that Cassandra uses peer-to-peer communication between its nodes. This architecture is also depicted in \cref{fig:cassandra-architecture}.
+Queries can be made to any node. Cassandra does not have a main node that takes queries, instead any node that a client connects to takes over the role of coordinator for this specific query. This coordinator node is responsible for querying other nodes for data in other partitions. This also implies that Cassandra uses peer-to-peer communication between its nodes. This architecture is also depicted in \Cref{fig:cassandra-architecture}.
 
 \begin{figure}
     \centering
@@ -92,6 +96,6 @@ Queries can be made to any node. Cassandra does not have a main node that takes 
     \label{fig:cassandra-architecture}
 \end{figure}
 
-Another powerful feature, which makes this database particular interesting for this thesis, is its capability to scale. If the partition key is chosen wisely and the database is therefore able to distribute data evenly between nodes, then doubling the amount of nodes also doubles the throughput \footref{fn:cassandra-basics}
+Another powerful feature, which makes this database particularly interesting for this thesis, is its capability to scale. If the partition key is chosen wisely and the database is therefore able to distribute data evenly between nodes, then doubling the amount of nodes also doubles the throughput \footref{fn:cassandra-basics}
 
-k8ssandra\footnote{\url{https://k8ssandra.io}} (pronounced: ``Kate'' +  ``Sandra'') is an open-source cloud-native distribution of Cassandra that is specifically made to run on Kubernetes. It includes several tools for providing a data API, backup/restore processes and automated database repairs. It also includes Kubernetes custom resource definitions (CRDs) to be able to easily deploy Cassandra databases. It also allows easy integration in existing observability and monitoring stacks such as the \texttt{kube-prometheus-stack}\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}}.
+K8ssandra\footnote{\url{https://k8ssandra.io}} (pronounced: ``Kate'' +  ``Sandra'') is an open-source cloud-native distribution of Cassandra that is specifically made to run on Kubernetes. It includes several tools for providing a data API, backup/restore processes and automated database repairs. It also includes Kubernetes custom resource definitions (CRDs) to be able to easily deploy Cassandra databases. It also allows easy integration in existing observability and monitoring stacks such as the \texttt{kube-prometheus-stack}\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}}, which is a collection of manifests, Grafana dashboards and Prometheus rules that provide an end-to-end Kubernetes cluster monitoring solution.

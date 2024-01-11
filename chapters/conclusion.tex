@@ -1,15 +1,19 @@
 \chapter{Conclusion}
 \label{ch:conclusion}
 
+\entryneedsurl{cockroftBenchmarkingCassandraScalability2011}
+
 This chapter concludes the thesis by summarizing the results, discussing the limitations and outlining possible future work.
 
-By enabling k8ssandra to scale vertically, horizontally and both combined, thus scaling diagonally, different tasks can be achieved. Vertical scaling reduces to allocated resources when not in use. This in turn reduces cost when using cloud computing infrastructure through its pay-as-you-go pricing model. On the other hand, freeing resources when not in use allows other applications to claim them, making scheduling applications much easier when working with a limited amount of resources.
+By enabling K8ssandra to scale vertically, horizontally and both combined, thus scaling diagonally, different tasks can be achieved. Vertical scaling reduces the allocated resources when not in use. This in turn reduces cost when using cloud computing infrastructure through its pay-as-you-go pricing model. On the other hand, freeing resources when not in use allows other applications to claim them, making scheduling applications much easier when working with a limited amount of resources.
 
-Horizontal scaling allows k8ssandra to essentially scale its throughput linearly. This was not only shown by the Apache Software Foundation, the developers of Cassandra, but also by industry leading companies such as Netflix\footnote{\raggedright\url{https://netflixtechblog.com/benchmarking-cassandra-scalability-on-aws-over-a-million-writes-per-second-39f45f066c9e}}.
+Horizontal scaling allows K8ssandra to essentially scale its throughput linearly. This was not only shown by the Apache Software Foundation, the developers of Cassandra, but also by industry leading companies such as Netflix \cite{cockroftBenchmarkingCassandraScalability2011}.
 
 Combining those two dimensions into a single elasticity strategy using the Polaris SLO framework, the benefits from both dimensions can be combined. Cost reduction through releasing and claiming resources dynamically and scaling throughput by adding nodes when demand is sufficient.
 
-Nevertheless, limiting factors exist. First and foremost, Cassandra is not designed to be a dynamic application. While it is possible to remove and add nodes to a running k8ssandra cluster, substantial load is generated because Cassandra needs to reconcile the cluster. During this time, the newly added nodes are not operational and other already existing nodes experience significant load that impairs operability.
+Nevertheless, limiting factors exist. First and foremost, Cassandra is not designed to be a dynamic application. While it is possible to remove and add nodes to a running K8ssandra cluster, substantial load is generated because Cassandra needs to reconcile the cluster. During this time, the newly added nodes are not operational and other already existing nodes experience significant load that impairs operability.
+
+\pagebreak
 
 \section{Future Work}
 \label{sec:future-work}
@@ -17,12 +21,12 @@ Nevertheless, limiting factors exist. First and foremost, Cassandra is not desig
 During implementation various issues arose that were deemed out of scope to solve. These imply the following suggestions:
 
 \begin{itemize}
-    \item \textbf{Horizontal scale-in}. As described in \cref{sec:horizontal-elasticity}, the within this thesis implemented version of horizontal scaling only perform scale-out due to the fact that further considerations related to storage have to be made. Some Kubernetes storage drivers support dynamic volume expansion\footnote{\url{https://kubernetes.io/blog/2022/05/05/volume-expansion-ga/}}, therefore this poses an opportunity for further development.
+    \item \textbf{Horizontal scale-in}. As described in \Cref{sec:horizontal-elasticity}, the within this thesis implemented version of horizontal scaling only perform scale-out due to the fact that further considerations related to storage have to be made. Some Kubernetes storage drivers support dynamic volume expansion\footnote{\url{https://kubernetes.io/blog/2022/05/05/volume-expansion-ga/}}, therefore this poses an opportunity for further development.
 
-    \item \textbf{In-place resource resize}. Earlier this year Kubernetes released a feature that allows resource updates to pods without them needing to restart\footnote{\url{https://kubernetes.io/blog/2023/05/12/in-place-pod-resize-alpha/}}. This would be beneficial as restarting k8ssandra nodes takes a long time.
+    \item \textbf{In-place resource resizing}. Earlier this year Kubernetes released a feature that allows resource updates to pods without them needing to restart\footnote{\url{https://kubernetes.io/blog/2023/05/12/in-place-pod-resize-alpha/}}. This would be beneficial as restarting K8ssandra nodes takes a long time.
 
-    \item \textbf{Improve stress testing}. Using \texttt{cassandra-stress} as load generation tool has the advantage of being a native Cassandra tool. The downside of this tool is that it is relativly inflexible. As mention in \cref{sec:evaluation-horizontal-elasticity} the cluster architecture is only discovered once during startup. Therefore changes to the architecture are not immediately reflected in the stress test.
+    \item \textbf{Improve stress testing}. Using \texttt{cassandra-stress} as load generation tool has the advantage of being a native Cassandra tool. The downside of this tool is that it is relativly inflexible. As mentioned in \Cref{sec:evaluation-horizontal-elasticity} the cluster architecture is only discovered once during startup. Therefore changes to the architecture are not immediately reflected in the stress test.
     %data gateway
 
-    \item \textbf{Scale to zero}. To provide even more cost effectiveness during times where there is no demand, a scale-to-zero approach could be taken. k8ssandra supports stopping the cluster as a whole. This could be subject to further research.
+    \item \textbf{Scale to zero}. To provide even more cost effectiveness during times where there is no demand, a scale-to-zero approach could be taken. K8ssandra supports stopping the cluster as a whole. This could be subject to further research.
 \end{itemize}

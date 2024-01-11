@@ -2,7 +2,7 @@
 
 \PassOptionsToPackage{hyphens}{url}
 
-\documentclass[draft,final]{vutinfth} % Remove option 'final' to obtain debug information.
+\documentclass[final]{vutinfth} % Remove option 'final' to obtain debug information.
 
 % Load packages to allow in- and output of non-ASCII characters.
 \usepackage{lmodern}        % Use an extension of the original Computer Modern font to minimize the use of bitmapped letters.
@@ -39,8 +39,19 @@
 \usepackage{float}
 
 \usepackage{csquotes}
-\usepackage[url=false,isbn=false]{biblatex}
+\usepackage[isbn=false,urldate=comp]{biblatex}
 \addbibresource{bibliography.bib}
+\newrobustcmd*{\citefirstlastauthor}{\AtNextCite{\DeclareNameAlias{labelname}{given-family}}\citeauthor}
+\DeclareBibliographyCategory{needsurl}
+\renewbibmacro*{url+urldate}{%
+  \ifcategory{needsurl}
+    {\printfield{url}%
+     \iffieldundef{urlyear}
+       {}
+       {\setunit*{\addspace}%
+        \printurldate}}
+    {}}
+\newcommand{\entryneedsurl}[1]{\addtocategory{needsurl}{#1}}
 
 \usepackage{listings}
 \lstset{
@@ -58,8 +69,7 @@
 }
 
 \newcommand{\authorname}{Nico Kratky}
-\newcommand{\thesistitle}{Enabling k8ssandra for Diagonal Elasticity Using the Polaris SLO Framework}
-\newcommand{\gerthesistitle}{Diagonale Elastizität für k8ssandra mithilfe des Polaris SLO Frameworks}
+\newcommand{\thesistitle}{Enabling K8ssandra for Diagonal Elasticity Using the Polaris SLO Framework}
 
 % Set PDF document properties
 \hypersetup{
@@ -123,7 +133,7 @@
 
 \include{chapters/background}
 
-\include{chapters/implementation}
+\include{chapters/components}
 
 \include{chapters/evaluation}
 
@@ -133,6 +143,7 @@
 
 \backmatter
 
+\renewcommand{\UrlFont}{\footnotesize\ttfamily}
 % Add a bibliography.
 \printbibliography
 

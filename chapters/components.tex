@@ -1,0 +1,284 @@
+\chapter{Components}
+\label{ch:components}
+
+This chapter discusses the design and implementation of the metrics controller, SLO controllers and the elasticity strategy controllers. These are all components of the Polaris architecture that was described in \Cref{sec:polaris}. All of these were implemented using TypeScript.
+
+\section{Metrics}
+\label{sec:metrics}
+
+In order to continously monitor the K8ssandra cluster, a custom metric is introduced. The Polaris SLO framework supports two kinds of metrics, raw metrics and composed metrics, with the new metric being of the latter type. A composed metric consists of a combination of raw metrics.
+
+The new composed metric includes three raw metrics: average CPU utilization, average memory utilization and average write utilization. The interface that defines this composed metric is listed in \Cref{lst:K8ssandraEfficiency}. All raw metrics are calculated using the Metrics Collector for Apache Cassandra\footnote{\url{https://docs.k8ssandra.io/components/metrics-collector/}} (MCAC), which is a component included with K8ssandra. The Metrics Collector for Apache Cassandra aggregates operating system level metrics alongside with Cassandra metrics. K8ssandra also provides preconfigured Grafana dashboards\footnote{\raggedright\url{https://docs.k8ssandra.io/tasks/monitor/prometheus-grafana/grafana-dashboards.yaml}}. The following metrics were heavily influenced by the metrics that were used in these dashboards.
+
+\begin{lstlisting}[caption={K8ssandraEfficiency composed metric},
+                    captionpos=b,
+                    label=lst:K8ssandraEfficiency,
+                    float]
+export interface K8ssandraEfficiency {
+  avgCpuUtilisation: number;
+  avgMemoryUtilisation: number;
+  avgWriteLoadPerNode: number;
+}
+\end{lstlisting}
+
+\subsection{Average CPU Utilization}
+
+The average CPU utilization metric expresses the CPU utilization averaged over the target K8ssandra cluster. This metric is used for vertical elasticity. \Cref{lst:avgCpuUtilization} shows the respective PromQL query. PromQL is a functional query language provided by Prometheus, which lets users select and aggregate time-series data in real time\footnote{\url{https://prometheus.io/docs/prometheus/latest/querying/basics/}}.
+
+\begin{lstlisting}[caption={PromQL query used for the average CPU utilisation metric},
+                    captionpos=b,
+                    label=lst:avgCpuUtilization,
+                    float]
+avg by (cluster) (
+  1 - (
+    sum by (cluster, dc, rack, instance) (
+      rate(
+        collectd_cpu_total{
+          cluster="polaris-k8ssandra-cluster",
+          type="idle"
+        }[10m]
+      )
+    )
+    /
+    sum by (cluster, dc, rack, instance) (
+      rate(
+        collectd_cpu_total{cluster="polaris-k8ssandra-cluster"}[10m]
+      )
+    )
+  )
+)
+\end{lstlisting}
+
+\subsection{Average Memory Utilization}
+
+Similarly to the average CPU utilization metric, the average memory utilization metric measures the average memory consumption of the target K8ssandra cluster. It is also aimed to be used by vertical elasticity strategies. \Cref{lst:avgMemoryUtilization} shows a trimmed down version of the PromQL query used by this metric.
+
+\begin{lstlisting}[caption={PromQL query used for the average memory utilization metric},
+                    captionpos=b,
+                    label=lst:avgMemoryUtilization,
+                    float]
+max(
+    sum by (pod) (
+        container_memory_working_set_bytes{cluster="",namespace="k8ssandra"}
+      * on (namespace, pod) group_left (workload, workload_type)
+        namespace_workload_pod:kube_pod_owner:relabel{
+            namespace="k8ssandra",
+            workload="dc1-default-sts",
+            workload_type="statefulset"
+        }
+    )
+  /
+    sum by (pod) (
+        kube_pod_container_resource_limits{
+            job="kube-state-metrics",
+            namespace="k8ssandra",
+            resource="memory"
+        }
+      * on (namespace, pod) group_left (workload, workload_type)
+        namespace_workload_pod:kube_pod_owner:relabel{
+            namespace="k8ssandra",
+            workload="dc1-default-sts",
+            workload_type="statefulset"
+        }
+    )
+)
+\end{lstlisting}
+
+\subsection{Average Write Utilization}
+\label{sec:metrics-average-write-utilization}
+
+This metric measures the average write load that one K8ssandra node experiences. Write load is defined as the amount of write requests the database receives per second. It is used for horizontal scaling, which means adding nodes to the cluster. The metric consists of two separate queries which are shown in \Cref{lst:writeUtilization,lst:getNodeCount}. The first query gets the total write load of the cluster and the second query calculates the current amount of active nodes. The before mentioned provided Grafana dashboards offer multiple ways of getting the node count, with the one listed here being among the simplest.
+
+\begin{lstlisting}[caption={PromQL query used to get the current write throughput},
+                    captionpos=b,
+                    label=lst:writeUtilization,
+                    float]
+sum by (cluster, request_type) (
+  rate(
+    mcac_client_request_latency_total{
+        cluster="polaris-k8ssandra-cluster",
+        request_type="write"
+    }[5m]
+  )
+)
+\end{lstlisting}
+
+\begin{lstlisting}[caption={PromQL query used to get the amount of nodes in the K8ssandra cluster},
+                    captionpos=b,
+                    label=lst:getNodeCount,
+                    float]
+count(
+  mcac_compaction_completed_tasks{cluster="polaris-k8ssandra-cluster"} >= 0
+)
+\end{lstlisting}
+
+\section{SLO Controllers}
+\label{sec:slos}
+
+SLO controllers are used to configure and evaluate specific service level objectives. These evaluations are then used to configure the respective elasticity strategies.
+
+As part of this thesis three SLOs and their corresponding controllers were implemented. Two of these are used for the vertical and horizontal elasticity strategies. The third one, called ``k8ssandra-efficiency'' is a combination of the other ones that is used for the diagonal elasticity strategy.
+
+\subsection{Compliance Types}
+\label{sec:compliance-types}
+
+As both the vertical and diagonal elasticity strategies expect input types other than the generic \texttt{SloCompliance}, custom types have been created. This is necessary because the elasticity strategy controllers use this data to decide what dimension has to be scaled to what extent. For example, the diagonal elasticity strategy has three parameters that are adjustable: CPU, memory and node count. These values have to be passed from the SLO controller to the elasticity strategy controller.
+
+\texttt{K8ssandraVerticalSloCompliance}, listed in \Cref{lst:K8ssandraVerticalSloCompliance}, is a type that is used, as the name already suggests, for expressing vertical compliance. It contains two fields: \texttt{curr\-Cpu\-Com\-pli\-ance\-Per\-cen\-tage} and \texttt{curr\-Memory\-Slo\-Com\-pli\-ance\-Per\-cen\-tage}. Both these values indicate how much the target K8ssandra clusters current resource claims comply with the SLO.
+
+\texttt{K8ssandraSloCompliance} is a type that includes both of the values from \texttt{K8\-ssan\-dra\-Vertical\-Slo\-Com\-pli\-ance} and additionally a field \texttt{curr\-Horizontal\-Slo\-Com\-pli\-ance\-Per\-cen\-tage}. This type is listed in \Cref{lst:K8ssandraSloCompliance}.
+
+All of these values are given as percentages. Both of these types also have a field \texttt{tolerance}. By using all of these values it is possible to determine if scaling actions are required at any given time.
+
+\begin{lstlisting}[caption={K8ssandraVerticalSloCompliance},
+                    captionpos=b,
+                    label=lst:K8ssandraVerticalSloCompliance,
+                    float]
+export class K8ssandraVerticalSloCompliance {
+  currCpuSloCompliancePercentage: number;
+  currMemorySloCompliancePercentage: number;
+
+  tolerance?: number;
+
+  constructor(initData?: Partial<K8ssandraVerticalSloCompliance>) {
+    initSelf(this, initData);
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={K8ssandraSloCompliance},
+                    captionpos=b,
+                    label=lst:K8ssandraSloCompliance,
+                    float]
+export class K8ssandraSloCompliance {
+  currCpuSloCompliancePercentage: number;
+  currMemorySloCompliancePercentage: number;
+  currHorizontalSloCompliancePercentange: number;
+
+  tolerance?: number;
+
+  constructor(initData?: Partial<K8ssandraSloCompliance>) {
+    initSelf(this, initData);
+  }
+}
+\end{lstlisting}
+
+\subsection{API Object}
+
+To enable the Polaris SLO framework to interact with the K8ssandra CRD subtype of \texttt{ApiObject} was used. \texttt{ApiObject} is used for any object that should be added, read, changed or deleted by Polaris using the orchestrator's API.
+
+Because of this use of a subtype the framework is also able to automatically transform fields. Kubernetes for example uses two separate fields for resources, requests and limits. Polaris on the other hand simply uses ``resources'' as orchestrator details are abstracted. This conversion from requests and limits to resources is handled by the Polaris SLO framework through annotating the respective fields with \texttt{PolarisType}, which is a TypeScript decorator. This annotation is necessary as the type of any given class is not available during runtime when using TypeScript.
+
+\section{Elasticity Strategies}
+
+The elasticity strategy controllers perform the actions that are required to scale the workload. All elasticity strategy controllers must implement the interface \texttt{Elasticity\-Strategy\-Controller} which requires the implementation of four methods: \texttt{check\-If\-Action\-Needed}, \texttt{execute}, \texttt{on\-Elasticity\-Strategy\-Deleted} and \texttt{on\-Destroy}, with the latter two being optional.
+
+These elasticity strategy controllers are called with the appropriate \texttt{SloOutput} during the SLO control loop \cite{pusztaiNovelMiddlewareEfficiently2021a}.
+
+As part of this thesis, three elasticity strategies for K8ssandra have been implemented. One each for vertical and horizontal elasticity and one that combines these two into a diagonal elasticity strategy.
+
+\subsection{Vertical Elasticity Strategy}
+\label{sec:vertical-elasticity}
+
+The vertical elasticity strategy controller is a subtype of \texttt{Elasticity\-Strategy\-Controller}, which is the interface that all controllers responsible for a elasticity strategy must implement. It expects \texttt{K8ssandra\-Vertical\-Slo\-Compliance}, as described in \Cref{sec:compliance-types}, as input. The controller uses the CPU and memory compliance value to scale the current resources accordingly. If the current CPU and memory compliance is the given tolerance range, no scaling is performed by the elasticity strategy controller.
+
+\subsection{Horizontal Elasticity Strategy}
+\label{sec:horizontal-elasticity}
+
+The horizontal elasticity strategy controller is able to use the \texttt{Slo\-Compliance\-E\-las\-tic\-i\-ty\-Strategy\-Controller\-Base} as its supertype as it expects \texttt{Slo\-Compliance} as input. This controller base is one of the provided common superclasses. Different superclasses exist for different use cases. The superclass targeted at horizontal elasticity strategies could not be used, as it is already too specific as it expects the target to have a \texttt{scale} subresource, which a \texttt{K8ssandraCluster} CRD does not have. This also reduces the amount of boilerplate code and therefore also complies with the ``Don't repeat yourself'' (DRY) principle. Again, the elasticity strategy controller performs a scaling action if the compliance is out of range of the set tolerance.
+
+The here implemented version of horizontal scaling \textit{only} performs scale-out. The reason for this is that for scaling-in databases, special considerations have to be made. This is especially true for storage. When, for example, reducing the node count in a Cassandra cluster from 3 to 2, the amount of stored data stays the same, therefore it is possible that the stored data per node increases. This, however, was considered out of scope of this thesis.
+
+\subsection{Diagonal Elasticity Strategy}
+\label{sec:diagonal-elasticity}
+
+The third and last elasticity strategy controller combines the controller described in \Cref{sec:vertical-elasticity,sec:horizontal-elasticity}.
+
+Again, because this controller expects a different input than \texttt{SloCompliance}, \texttt{K8\-ssan\-dra\-Slo\-Compliance} it is not possible to use any of the provided controller bases. Therefore a custom controller base that expects this input has been implemented. The diagonal elasticity controller is a subtype of this newly created controller base.
+
+Two different elasticity dimensions are combined. The elasticity strategy controller is able to autonomously decide which scaling action is best to take. This is possible because of the data that is encapsulated in the \texttt{K8\-ssan\-dra\-Slo\-Compliance}. If the SLO controller determined a violation regarding resource utilization, the elasticity strategy controller will adapt these resources to comply with the target values. On the other hand, if the SLO controller discovers that the K8ssandra cluster experiences significant write load and the SLO is therefore violated the elasticity strategy controller will perform a horizontal scale-out. This will result in a new node to be added to the K8ssandra cluster which subsequently increases the possible throughput. These two processes are listed in \Cref{lst:diagonal-elasticity:updateResources,lst:diagonal-elasticity:updateSize}.
+
+
+\begin{lstlisting}[caption={Method of diagonal elasticity strategy controller which manages vertical scaling},
+                    captionpos=b,
+                    label=lst:diagonal-elasticity:updateResources,
+                    float]
+private updateResources(
+  elasticityStrategy: ElasticityStrategy<
+    K8ssandraSloCompliance,
+    SloTarget,
+    K8ssandraElasticityStrategyConfig
+  >,
+  k8c: K8ssandraCluster
+): K8ssandraCluster {
+  const sloOutputParams = elasticityStrategy.spec.sloOutputParams;
+
+  const memoryComplianceDiff =
+    sloOutputParams.currMemorySloCompliancePercentage - 100;
+  const cpuComplianceDiff =
+    sloOutputParams.currCpuSloCompliancePercentage - 100;
+
+  const tolerance = this.getTolerance(sloOutputParams);
+
+  let memoryScalePercent = 1;
+  let cpuScalePercent = 1;
+
+  if (Math.abs(memoryComplianceDiff) > tolerance) {
+    memoryScalePercent = (100 - memoryComplianceDiff) / 100;
+  }
+
+  if (Math.abs(cpuComplianceDiff) > tolerance) {
+    cpuScalePercent = (100 - cpuComplianceDiff) / 100;
+  }
+
+  const resources = k8c.spec.cassandra.resources;
+
+  const scaledResources = new ContainerResources({
+    memoryMiB: Math.ceil(resources.memoryMiB * memoryScalePercent),
+    milliCpu: Math.ceil(resources.milliCpu * cpuScalePercent),
+  });
+
+  Logger.log('Setting new resources', scaledResources);
+  k8c.spec.cassandra.resources = scaledResources;
+
+  return k8c;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Method of diagonal elasticity strategy controller which manages horizontal scaling},
+                    captionpos=b,
+                    label=lst:diagonal-elasticity:updateSize,
+                    float]
+private updateSize(
+  elasticityStrategy: ElasticityStrategy<
+    K8ssandraSloCompliance,
+    SloTarget,
+    K8ssandraElasticityStrategyConfig
+  >,
+  k8c: K8ssandraCluster
+): K8ssandraCluster {
+  const sloOutputParams = elasticityStrategy.spec.sloOutputParams;
+
+  const size = k8c.spec.cassandra.datacenters[0].size;
+  let newSize = size;
+
+  const horizontalComplianceDiff =
+    100 - sloOutputParams.currHorizontalSloCompliancePercentange;
+
+  const tolerance = this.getTolerance(sloOutputParams);
+
+  if (horizontalComplianceDiff > tolerance) {
+    Logger.log('Triggering horizontal scale up');
+    newSize = newSize + 1;
+  } else {
+    Logger.log('Not triggering horizontal scale up');
+  }
+
+  Logger.log('Setting size', newSize);
+  k8c.spec.cassandra.datacenters[0].size = newSize;
+
+  return k8c;
+}
+\end{lstlisting}
+
+Due to a normalization process that takes place after the actual scaling, it is possible that even if the elasticity strategy is executed no update to the target is made. This is because there are certain limits that are set statically that have to be adhered to. CPU and memory have physical limits as there is no infite amount of resources that can be claimed by the target. Similarly, a lower boundary is also in place because even if the current utilization is very low, a minimum amount of resources is necessary to guarantee normal operation.

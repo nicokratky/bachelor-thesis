@@ -8,9 +8,9 @@ This chapter first introduces the setup that was used for evaluating the differe
 
 In order to test the different elasticity strategies a test environment has to be set up. It was decided to create three virtual machines (VM) that will form a Kubernetes cluster. Because of its ease of use microk8s was chosen as distribution\footnote{\url{https://microk8s.io/}}. All three virtual machines were assigned 10 vCPUs and 10GB of memory. One VM acts as the Kubernetes control plane while the other two join the cluster as worker nodes.
 
-Everything that was deployed into the Kubernetes cluster was built using the infrastructure as code (IaC) tool HashiCorp Terraform\footnote{\url{https://www.terraform.io/}}. This enables rapid changes and reproducibility. Deployed resources include the kube-prometheus-stack\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}} for monitoring, the k8ssandra-operator\footnote{\url{https://docs.k8ssandra.io/components/k8ssandra-operator/}} for managing k8ssandra clusters and a definition for a k8ssandra cluster. Additionally, the in \cref{sec:metrics} mentioned Grafana dashboards are also deployed using Terraform.
+Everything that was deployed into the Kubernetes cluster was built using the infrastructure as code (IaC) tool HashiCorp Terraform\footnote{\url{https://www.terraform.io/}}. This enables rapid changes and reproducibility. Deployed resources include the kube-prometheus-stack\footnote{\raggedright\url{https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack}} for monitoring, the k8ssandra-operator\footnote{\url{https://docs.k8ssandra.io/components/k8ssandra-operator/}} for managing K8ssandra clusters and a definition for a K8ssandra cluster. Additionally, the Grafana dashboards mentioned in \Cref{sec:metrics} are also deployed using Terraform.
 
-\Cref{lst:k8c} illustrates a minimal definition of a 3 node k8ssandra cluster. Each node has resource limits of 800 millicpu and 6000MB of memory and 3GiB storage space.
+\Cref{lst:k8c} illustrates a minimal definition of a 3 node K8ssandra cluster. Each node has resource limits of 800 millicpu and 6000MB of memory and 3GiB storage space.
 
 \begin{lstlisting}[caption={Minimal example of a K8ssandraCluster definition.},
                 label=lst:k8c,
@@ -40,22 +40,23 @@ spec:
 
 \section{Benchmarks}
 
-In the following sections, different test scenarios will be discussed. To let k8ssandra experience load, the built-in stress testing tool \texttt{cassandra-stress} was used\footnote{\raggedright\url{https://cassandra.apache.org/doc/stable/cassandra/tools/cassandra_stress.html}}.
+In the following sections, different test scenarios will be discussed. To let K8ssandra experience load, the built-in stress testing tool \texttt{cassandra-stress} was used\footnote{\raggedright\url{https://cassandra.apache.org/doc/stable/cassandra/tools/cassandra_stress.html}}. This tool is able to perform benchmarks and load-test Cassandra clusters and is part of the default Cassandra installation. Different operation modes, such as read-only, write-only or mixed, are available.
+
+\Cref{sec:stress-testing} introduces the load testing tool and sets a baseline scenario. Based on these results, the following sections will add vertical, horizontal and, finally, diagonal elasticity in order to for increased throughput and resource efficiency. All of these different elasticity strategy tests build upon the same configuration that was used during the baseline tests.
 
 \subsection{Stress Testing}
 \label{sec:stress-testing}
 
-To set a baseline, three different k8ssandra cluster setups have been stress tested using \texttt{cassandra-stress}. The amount of write requests that the tool will make is set to be 1000000, the exact call is listed in \cref{lst:stress-1000000writes}. These cluster setups merely differ in the cluster size, thus the amount of nodes. All clusters were provisioned with limits of 2 CPUs and 6GB of memory.
+To set a baseline, three different K8ssandra cluster setups, with one, two, and three nodes respectively, have been stress tested using \texttt{cassandra-stress}. All nodes were provisioned with limits of 2 CPUs and 6GB of memory. The amount of write requests that the tool will make is set to be 1000000, the exact call is listed in \Cref{lst:stress-1000000writes}. During these runs, no elasticity was involved.
 
-\begin{lstlisting}[caption={},
+\begin{lstlisting}[caption={Call of the \texttt{cassandra-stress} tool that triggers 1000000 writes.},
                     captionpos=b,
                     label=lst:stress-1000000writes,
                     float]
-./cassandra-stress write n=1000000 -mode native cql3 \
-    user='USERNAME' password='PASSWORD'
+./cassandra-stress write n=1000000 -mode native cql3
 \end{lstlisting}
 
-The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,fig:stress-1000000writes-2node,,fig:stress-1000000writes-3node}. The write throughput increases with the amount of nodes, but not linearly. This, however, was to be expected as \texttt{cassandra-stress} does not partition data in a way that favours linear scalability. The average write throughputs of these different clusters can be seen in \cref{tab:stress-1000000writes-ops}.
+The results of these tests are depicted in \Cref{fig:stress-1000000writes-1node,fig:stress-1000000writes-2node,,fig:stress-1000000writes-3node}. The write throughput increases with the amount of nodes, but not linearly. This, however, was to be expected as \texttt{cassandra-stress} does not partition data in a way that favours linear scalability. The average write throughputs of these different clusters can be seen in \Cref{tab:stress-1000000writes-ops}.
 
 \begin{table}[H]
 \centering
@@ -66,7 +67,7 @@ The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,
 2                     & 13142                 & 1m57s                     \\ \hline
 3                     & 14318                 & 1m50s                     \\ \hline
 \end{tabular}
-\caption{Average write throughput for different k8ssandra clusters. With increasing cluster size the throughput also increases}
+\caption{Average write throughput for different K8ssandra clusters. With increasing cluster size the throughput also increases}
 \label{tab:stress-1000000writes-ops}
 \end{table}
 
@@ -94,14 +95,13 @@ The results of these tests are depicted in \cref{fig:stress-1000000writes-1node,
 \subsection{Vertical Elasticity Strategy}
 \label{sec:evaluation-vertical-elasticity}
 
-As mentioned in \cref{sec:vertical-elasticity} the vertical elasticity strategy adjusts the resource claims of k8ssandra according to its CPU and memory utilization.
+As mentioned in \Cref{sec:vertical-elasticity} the vertical elasticity strategy adjusts the resource claims of K8ssandra according to its CPU and memory utilization.
 
-As it can bee seen in \cref{fig:simple-limits-vertical} the elasticity strategy controller successfully changes the CPU and memory limits of the k8ssandra cluster once it is operational. \Cref{fig:utilization-vertical} shows the CPU and memory utilization that is used for triggering elasticity processes. Because the CPU utilization stays very low even after scaling takes place, it can be assumed that this metric was not a decisive factor. The memory utilization, however, changes notably. Before starting the elasticity strategy controller the actual memory utilization was off by \(>10\%\) from the target memory utilization. This triggers an elasticity event and the resources are adjusted proportionally.
+As it can bee seen in \Cref{fig:simple-limits-vertical} the elasticity strategy controller successfully changes the CPU and memory limits of the K8ssandra cluster once it is operational. \Cref{fig:utilization-vertical} shows the CPU and memory utilization that is used for triggering elasticity processes. Because the CPU utilization stays very low even after scaling takes place, it can be assumed that this metric was not a decisive factor. The memory utilization, however, changes notably. Before starting the elasticity strategy controller the actual memory utilization was off by \(>10\%\) from the target memory utilization. This triggers an elasticity event and the resources are adjusted proportionally.
 
-Interestingly, during reconsiliation the exposed metrics of k8ssandra are not very meaningful. During this process utilization values of far more than 100\% are exposed by the metrics controller. In order to keep the diagram clean, these nonsense-metrics have been filtered out. The reconsiliation process is marked red in \cref{fig:utilization-vertical}.
+Interestingly, during reconsiliation the exposed metrics of K8ssandra are not very meaningful. During this process utilization values of far more than 100\% are exposed by the metrics controller. In order to keep the diagram clean, these nonsense-metrics have been filtered out. The reconsiliation process is marked red in \Cref{fig:utilization-vertical}.
 
-This elasticity strategy mirrors real-life scenarios. The advantage lies in being able to scale down when demand and therefore CPU and memory utilization is low, thus potentially reducing cost. This obviously only applies when not using dedicated resources.
-
+This elasticity strategy mirrors real-life scenarios. The advantage lies in being able to scale down when demand and therefore CPU and memory utilization is low, thus potentially reducing cost. This obviously only applies when not using dedicated resources. Comparing the results to the prior discussed baseline scenario, it is clear that vertical elasticity offers a benefit, as it reduces the CPU claims by 200 milliCPU and memory claims by more than 2 GB. 
 \begin{figure}
     \centering
     \input{figures/plots/simple-limits-vertical-controller-1node-30min.pgf}
@@ -119,11 +119,11 @@ This elasticity strategy mirrors real-life scenarios. The advantage lies in bein
 \subsection{Horizontal Elasticity Strategy}
 \label{sec:evaluation-horizontal-elasticity}
 
-The horizontal elasticity strategy controller scales the target k8ssandra cluster horizontally, thus adding nodes as demand increases. Demand is measured as write throughput by the metrics controller as described in \cref{sec:metrics-average-write-utilization}.
+The horizontal elasticity strategy controller scales the target K8ssandra cluster horizontally, thus adding nodes as demand increases. Demand is measured as write throughput by the metrics controller as described in \Cref{sec:metrics-average-write-utilization}.
 
-As in the example stress tests discussed in \cref{sec:stress-testing}, \texttt{cassandra-stress} was used to generate load on the target k8ssandra cluster. During this load generation process, the horizontal elasticity controller was running. The target write load per node was defined in the SLO mapping as 5000. Depicted in \cref{fig:horizontal-elasticity} is the average write load per node metric and the corresponding node count during the testing process. It can be seen that the node count does not increase immediatly when the scaling action takes place. That is because when the k8ssandra CRD is updated by the elasticity strategy controller, first the \texttt{k8ssandra-operator} has to recognize the made changes and adjust the configuration accordingly. When the second k8ssandra node is successfully scheduled it still needs time to start and finally register in the cluster. The final action is the Cassandra reconciliation process.
+As in the example stress tests discussed in \Cref{sec:stress-testing}, \texttt{cassandra-stress} was used to generate load on the target K8ssandra cluster. During this load generation process, the horizontal elasticity controller was running. The target write load per node was defined in the SLO mapping as 5000 writes/sec. Depicted in \Cref{fig:horizontal-elasticity} is the average write load per node metric and the corresponding node count during the testing process. It can be seen that the node count does not increase immediatly when the scaling action takes place. That is because when the K8ssandra CRD is updated by the elasticity strategy controller, first the \texttt{k8ssandra-operator} has to recognize the made changes and adjust the configuration accordingly. When the second K8ssandra node is successfully scheduled it still needs time to start and finally register in the cluster. The final action is the Cassandra reconciliation process.
 
-At approximately 290s a sudden drop in the metric can be observed. This is the point when the scaling action becomes effective and the k8ssandra node is ready. Then, after another few moments the metric drops under the set boundary of 5000. Tests of this kind are difficult to run over an extended period of time because of a limitation of \texttt{cassandra-stress}. When the load generator is started, it collects all available nodes in the cluster through Cassandra's communication protocol \texttt{Gossip}. \texttt{Gossip} is the protocol that Cassandra uses internally for its nodes to communicate with each other\footnote{\raggedright\url{https://docs.datastax.com/en/cassandra-oss/3.x/cassandra/architecture/archGossipAbout.html}}. While \texttt{cassandra-stress} is running, new nodes are not recognized and requests are therefore not sent to added nodes. Possible solutions to this will be discussed in \cref{ch:conclusion}.
+At approximately 290s a sudden drop in the metric can be observed. This is the point when the scaling action becomes effective and the K8ssandra node is ready. Then, after another few moments the metric drops under the set boundary of 5000. Tests of this kind are difficult to run over an extended period of time because of a limitation of \texttt{cassandra-stress}. When the load generator is started, it collects all available nodes in the cluster through Cassandra's communication protocol \texttt{Gossip}. \texttt{Gossip} is the protocol that Cassandra uses internally for its nodes to communicate with each other\footnote{\raggedright\url{https://docs.datastax.com/en/cassandra-oss/3.x/cassandra/architecture/archGossipAbout.html}}. While \texttt{cassandra-stress} is running, new nodes are not recognized and requests are therefore not sent to added nodes. Possible solutions to this will be discussed in \Cref{ch:conclusion}.
 
 \begin{figure}
     \centering
@@ -136,22 +136,22 @@ At approximately 290s a sudden drop in the metric can be observed. This is the p
 
 As explained earlier, the diagonal elasticity strategy combines the capabilites of the vertical and horizontal elasticity strategy into one single elasticity strategy.
 
-\Cref{fig:diagonal-elasticity} summarizes all metrics into a single illustration. The starting configuration was set to be a single k8ssandra node with resources of 2 CPUs and 6GB of memory. After starting the elasticity strategy controller it can be seen in \cref{fig:diagonal-elasticity-limits} that the controller immediatly reduces both CPU and memory resources. The reason for that can be seen in \cref{fig:diagonal-elasticity}, subfigure \texttt{c} and \texttt{d}. Right at the start, both CPU and memory utilization was not within the tolerance range of the target utilization. Therefore both CPU and memory limits were reduced. After the inital adjustment, the CPU utilization was still far away from the targeted amount. That is because the CPU resources hit the statically set lower bounds. The memory utilization however climbed above the targeted amount, therefore it was reduced again during the second scaling action.
+\Cref{fig:diagonal-elasticity} summarizes all metrics into a single illustration. The starting configuration was set to be a single K8ssandra node with resources of 2 CPUs and 6GB of memory. After starting the elasticity strategy controller it can be seen in \Cref{fig:diagonal-elasticity-limits} that the controller immediatly reduces both CPU and memory resources. The reason for that can be seen in \Cref{fig:diagonal-elasticity}c and \Cref{fig:diagonal-elasticity}d. Right at the start, both CPU and memory utilization was not within the tolerance range of the target utilization. Therefore both CPU and memory limits were reduced. After the inital adjustment, the CPU utilization was still far away from the targeted amount. That is because the CPU resources hit the statically set lower bounds. The memory utilization however climbed above the targeted amount, therefore it was reduced again during the second scaling action.
 
-Similarly to \cref{sec:evaluation-vertical-elasticity}, during Cassandra reconsiliation metrics are not very useful. This is again highlighted in red in \cref{fig:diagonal-elasticity}.
+Similarly to \Cref{sec:evaluation-vertical-elasticity}, during Cassandra reconsiliation metrics are not very useful. This is again highlighted in red in \Cref{fig:diagonal-elasticity}.
 
-During the second scaling action it can be seen that vertical and horizontal scaling indeed can happen simultaneously. In subfigure \texttt{b} of \cref{fig:diagonal-elasticity} the node count increased to 2, whereas in \cref{fig:diagonal-elasticity-limits} the memory limits increased. Note, that the \texttt{k8ssandra-operator} adjusts those values one at a time. This means that first the second k8ssandra node is started and then both Pods will get its resources updated accordingly.
+During the second scaling action it can be seen that vertical and horizontal scaling indeed can happen simultaneously. In \Cref{fig:diagonal-elasticity}b the node count increased to 2, whereas in \Cref{fig:diagonal-elasticity-limits} the memory limits increased. Note, that the \texttt{k8ssandra-operator} adjusts those values one at a time. This means that first the second K8ssandra node is started and then both Pods will get its resources updated accordingly.
 
-Horizontal scaling action are taken when the write load per node reaches a certain threshold, 5000 in this example. In \cref{fig:diagonal-elasticity}, subfigure \texttt{a} it can be seen that after the second, third and fourth scaling event, the k8ssandra cluster size is increased, thus an additional node is started. During the fifth and last scaling event no additional node is started, because the statically set maximum amount of nodes is reached. It is also visible, that the total write throughput increases with increasing node count. This can be further illustrated by multiplying the estimated peak write load with the current node count. \(18000 * 1 = 18000,\ 12000 * 2 = 24000,\ 9000 * 3 = 27000 \rightarrow 18000 < 24000 < 27000\).
+Horizontal scaling actions are taken when the write load per node reaches a certain threshold, 5000 in this example. In \Cref{fig:diagonal-elasticity}a it can be seen that after the second, third and fourth scaling event, the K8ssandra cluster size is increased, thus an additional node is started. During the fifth and last scaling event no additional node is started, because the statically set maximum amount of nodes is reached. It is also visible, that the total write throughput increases with increasing node count. This can be further illustrated by multiplying the estimated peak write load with the current node count, as depicted in \Cref{fig:diagonal-elasticity_cluster-write-load}. \(18000 * 1 = 18000,\ 12000 * 2 = 24000,\ 9000 * 3 = 27000 \rightarrow 18000 < 24000 < 27000\).
 
-Because of the in \cref{sec:evaluation-horizontal-elasticity} addressed drawback of \texttt{cassandra-stress}, which does not detect changes to the cluster architecture, stress tests were cancelled after new nodes were added, and restarted when Cassandra had finished its reconsiliation process.
+Because of the in \Cref{sec:evaluation-horizontal-elasticity} addressed drawback of \texttt{cassandra-stress}, which does not detect changes to the cluster architecture, stress tests were cancelled after new nodes were added, and restarted when Cassandra had finished its reconsiliation process.
 
-The advantage of this elasticity strategy is its ability to scale vertically and horizontally independently. This means that during times of low demand resources can be saved or used by other applications. A lower amount of resources also implies lower costs. During high demand times resources can be claimed again to provide a sufficient service level. If k8ssandra reports a high amount of writes the elasticity strategy can the also decide to scale-out horizontally by adding more nodes. As it was shown in \cref{sec:stress-testing} this increases the total throughput. As mentioned before, horizontal scale-in is not implemented in this project. This will be further addressed in \cref{sec:future-work}.
+The advantage of this elasticity strategy is its ability to scale vertically and horizontally independently. This means that during times of low demand resources can be saved or used by other applications. A lower amount of resources also implies lower costs. During high demand times resources can be claimed again to provide a sufficient service level. If K8ssandra reports a high amount of writes the elasticity strategy can the also decide to scale-out horizontally by adding more nodes. As it was shown in \Cref{sec:stress-testing} this increases the total throughput. Because this elasticity strategy combines two elasticity dimensions which perfectly complement each other, diagonal elasticity is clearly superior to horizontal or vertical elasticity alone. As mentioned before, horizontal scale-in is not implemented in this project. This will be further addressed in \Cref{sec:future-work}.
 
 \begin{figure}
     \centering
     \input{figures/plots/diagonal-elasticity.pgf}
-    \caption{Adjustment of CPU and memory resources as well as cluster size during diagonal elasticity}
+  \caption{a) Write operations per second per node during runs of \texttt{cassandra-stress}\qquad b) Amount of K8ssandra nodes during the test. Scaling actions 2 and 4 perform horizontal scaling\qquad c) CPU Utilization of the K8ssandra cluster\qquad d) Memory utilization of the K8ssandra cluster}
     \label{fig:diagonal-elasticity}
 \end{figure}
 
@@ -160,4 +160,11 @@ The advantage of this elasticity strategy is its ability to scale vertically and
     \input{figures/plots/diagonal-elasticity-limits.pgf}
     \caption{CPU and memory limits while the diagonal elasticity strategy controller is running}
     \label{fig:diagonal-elasticity-limits}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{figures/plots/diagonal-elasticity_cluster-write-load.pgf}
+    \caption{Comparison of write load per node and cluster write load during horizontal scaling}
+    \label{fig:diagonal-elasticity_cluster-write-load}
 \end{figure}
