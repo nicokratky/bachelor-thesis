@@ -23,9 +23,9 @@
 %%   \everymath=\expandafter{\the\everymath\displaystyle}
 %%   
 %%   \usepackage{fontspec}
-%%   \setmainfont{DejaVuSerif.ttf}[Path=\detokenize{/Users/nkratky/private/polaris-elasticity-strategies/test/scripts/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%   \setmainfont{DejaVuSerif.ttf}[Path=\detokenize{/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \setsansfont{Arial.ttf}[Path=\detokenize{/System/Library/Fonts/Supplemental/}]
-%%   \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/Users/nkratky/private/polaris-elasticity-strategies/test/scripts/.venv/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
+%%   \setmonofont{DejaVuSansMono.ttf}[Path=\detokenize{/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/}]
 %%   \makeatletter\@ifpackageloaded{underscore}{}{\usepackage[strings]{underscore}}\makeatother
 %%
 \begingroup%
