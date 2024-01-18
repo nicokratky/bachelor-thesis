@@ -11,7 +11,7 @@ The cloud computing paradigm emerged in the 2000s and provides ``ubiquitous, con
     \item \textbf{Software as a Service (SaaS)}. This model allows users to use a provided application that runs on cloud infrastructure. Users do not control the application nor the underlying infrastructure. A suitable example would include Astra DB by DataStax\footnote{\url{https://www.datastax.com/products/datastax-astra}}.
 \end{enumerate}
 
-All three of these service models have one thing in common: they profit from elasticity, which is the degree to which a system is able to adopt to workload changes by adding and removing resources automatically such that the resource supply matches the demand as closely as possible \cite{herbstElasticityCloudComputing2013}. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. The fact that elasticity is a property that benefits a variety of workloads led to the idea to enable the K8ssandra database for different elasticity strategies.
+All three of these service models have one thing in common: they profit from elasticity, which is the degree to which a system is able to adopt to workload changes by adding and removing resources automatically such that the resource supply matches the demand as closely as possible \cite{herbstElasticityCloudComputing2013}. Be it the infrastructure that provisions more memory to accomodate more load or be it the application that adapts its configuration. Databases such as Cassandra, which is a widely popular wide-column NoSQL database, can benefit from complex elasticity strategies. K8ssandra, Cassandra's cloud-native distribution built to run on Kubernetes, is used to implement these said complex elasticity strategies.
 
 \section{Motivation}
 \label{sec:motivation}
@@ -26,9 +26,9 @@ The main contributions of thesis include:
 \begin{enumerate}
     \item A custom K8ssandra cluster performance metric. This metric contains all information needed for scaling clusters both horizontally and vertically.
 
-    \item The SLO controller uses the information of the custom metric and calculates based on predefined target values if scaling actions need to be taken.
+    \item An SLO controller that uses the information of the custom metric and calculates based on predefined target values if scaling actions need to be taken.
 
-    \item A diagonal elasticity strategy combines traditional horizontal and vertical scaling. It can decide which option is best to align the cluster configuration with current usage patterns.
+    \item A diagonal elasticity strategy that combines traditional horizontal and vertical scaling. It can decide which option is best to align the cluster configuration with current usage patterns.
 \end{enumerate}
 
 \section{Structure of the Thesis}

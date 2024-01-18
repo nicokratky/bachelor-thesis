@@ -6,9 +6,9 @@ This chapter introduces some terminology and concepts that are used throughout t
 \section{Elasticity in Cloud Computing}
 \label{sec:elasticity}
 
-Elasticity is one of the core concepts that solves a big problem of cloud computing: providing limited resources for potentially unlimited use. The solution is to scale workloads up and down as needed, to claim resources when bigger load is experienced and release resources when they are not needed, therefore making them available to other workloads.
+Elasticity is one of the core concepts that solves a big problem of cloud computing: providing limited resources for potentially unlimited use. The solution is to scale workloads up and down as needed, to claim resources when bigger load is experienced and release resources when they are not needed, therefore making them available to other workloads and saving costs.
 
-The term elasticity in computing is conceptually similiar to the term in physics. Dating back to \citeyear{hookLecturesPotentiaRestitutiva1678}, \citefirstlastauthor{hookLecturesPotentiaRestitutiva1678} formulated a first definition of elasticity: \textit{``Ut tensio sic vis''} which literally translates to ``As extension, so force'' \cite{hookLecturesPotentiaRestitutiva1678}. This law results in the fact that when a elastic material experiences an external force and is therefore deformed, it also experiences internal forces that restore the material to its original shape when the external force is no longer present.
+The term elasticity in computing is conceptually similiar to the term in physics. Dating back to \citeyear{hookLecturesPotentiaRestitutiva1678}, \citefirstlastauthor{hookLecturesPotentiaRestitutiva1678} formulated a first definition of elasticity: \textit{``Ut tensio sic vis''} which literally translates to ``As extension, so force'' \cite{hookLecturesPotentiaRestitutiva1678}. This law results in the fact that when an elastic material experiences an external force and is therefore deformed, it also experiences internal forces that restore the material to its original shape when the external force is no longer present.
 
 The formula - which takes a more mathematical approach - of elasticity can be defined as \[ e(Y, X) = \diff{Y}{X} \frac{X}{Y}, \] where \(e(Y, X)\) is the elasticity of \(Y\) with respect to \(X\) \cite{dustdarPrinciplesElasticProcesses2011}.
 
@@ -21,7 +21,7 @@ To illustrate this, imagine an application that serves some content to its custo
     \label{fig:elasticity-application-no-scaling}
 \end{figure}
 
-If the concept of elasticity is applied to this example, resources can be released during the night (so called \textit{scale-in}) and more resources can be claimed as they are needed during the day (so called \textit{scale-out}). This is illustrated in \Cref{fig:elasticity-application-scaling}.
+If the concept of elasticity is applied to this example, resources can be released during the night (so called \textit{scale-in} or \textit{scale-down}) and more resources can be claimed as they are needed during the day (so called \textit{scale-out} or \textit{scale-up}). This is illustrated in \Cref{fig:elasticity-application-scaling}.
 
 \begin{figure}
     \centering
@@ -38,7 +38,7 @@ The resource dimension of elasticity is mistakenly often used synonymously with 
 
 What makes this definition easily mistaken, is that it solely considers the aquired resources and not the consequently incurred costs or changing quality.
 
-Prime examples for this elasticity dimension are horizontal and vertical scaling. Horizontal scaling adds and removes machines. Vertical scaling adapts resources of these machines, e.g. CPU and memory.
+Prime examples for this elasticity dimension are horizontal and vertical scaling. Horizontal scaling adds and removes instances. Vertical scaling adapts resources of these instances, e.g. CPU and memory.
 
 \subsection{Cost Elasticity}
 
@@ -67,9 +67,9 @@ The authors of this framework introduce the concept of \textit{elasticity strate
 
 Another unique feature of Polaris is its object model, which allows for orchestrator independence. This is achieved by encapsulating all data that is transmitted to the orchestrator into a \texttt{ApiObject} type. This type acts as an entrypoint for the transformation service that the framework provides. Instances of classes of the Polaris SLO framework are transformed into plain JavaScript objects, which are then serialized into the required data format by an orchestrator-specific connector library. Every orchestrator uses different abstractions, therefore transforming objects into these abstractions is a necessary step to reach orchestrator independence. Currently, a transformation service for Kubernetes is provided by the authors of the Polaris SLO framework. This services handles the transformation to Kubernetes CRDs. Kubernetes Custom Resource Definitions (CRDs) are definitions of Custom Resources. A Custom Resource is some kind of data that does not match any preexisting object kinds within Kubernetes. These Custom Resources are necessary to allow Kubernetes to be as flexible as it is. Typically, they are used to encapsulate data in order to store and retrieve it through the Kubernetes API.
 
-Decoupling SLOs from elasticity strategies is also a feature that Polaris provides. Tight coupling is a charactaristic that is even observed in industry standard scaling mechanisms such as Kubernetes' Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}}. This autoscaler provides a CPU usage SLO which can only trigger horizontal elasticity, thus adding or removing machines. To achieve this decoupling, Polaris utilizes an architecture that is depicted in \Cref{fig:polaris-architecture}. The metrics controller provides raw and, as it is the case in this thesis, composed metrics, which are defined by the user. These metrics are then used by the SLO controller to compare the current state of the target against the desired state. If the SLO is violated, the specified elasticity strategy tries to bring the target back to SLO adherence. These single components are tied together using a SLO mapping, which specifies which SLO is used for which target component and which elasticity strategy shall be executed in the case of violation. 
+Decoupling SLOs from elasticity strategies is also a feature that Polaris provides. Tight coupling is a charactaristic that is even observed in industry standard scaling mechanisms such as Kubernetes' Horizontal Pod Autoscaler\footnote{\raggedright\url{https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/}}. This autoscaler provides a CPU usage SLO which can only trigger horizontal elasticity, thus adding or removing machines. To achieve this decoupling, Polaris utilizes an architecture that is depicted in \Cref{fig:polaris-architecture}. The metrics controller provides raw and, as it is the case in this thesis, composed metrics, which are defined by the user. These metrics are then used by the SLO controller to compare the current state of the target against the desired state. If the SLO is violated, the specified elasticity strategy tries to bring the target back to SLO adherence. These single components are tied together using an SLO mapping, which specifies which SLO is used for which target component and which elasticity strategy shall be executed in the case of violation. 
 
-To ensure compability between a SLO and an elasticity strategy they must both accept the same output and input type, respectively. This type is called \texttt{SloOutput}. The framework provides a generic class \texttt{SloCompliance} which simply expresses the current percentage of conformance of the SLO. This allows for compatibility of as many SLOs and elasticity strategies as possible.
+To ensure compability between an SLO and an elasticity strategy they must both accept the same output and input type, respectively. This type is called \texttt{SloOutput}. The framework provides a generic class \texttt{SloCompliance} which simply expresses the current percentage of conformance of the SLO. This allows for compatibility of as many SLOs and elasticity strategies as possible.
 
 \begin{figure}
     \centering

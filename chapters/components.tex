@@ -165,7 +165,7 @@ export class K8ssandraSloCompliance {
 
 \subsection{API Object}
 
-To enable the Polaris SLO framework to interact with the K8ssandra CRD subtype of \texttt{ApiObject} was used. \texttt{ApiObject} is used for any object that should be added, read, changed or deleted by Polaris using the orchestrator's API.
+To enable the Polaris SLO framework to interact with the K8ssandra CRD, a subtype of \texttt{ApiObject} was used. \texttt{ApiObject} is used for any object that should be added, read, changed or deleted by Polaris using the orchestrator's API.
 
 Because of this use of a subtype the framework is also able to automatically transform fields. Kubernetes for example uses two separate fields for resources, requests and limits. Polaris on the other hand simply uses ``resources'' as orchestrator details are abstracted. This conversion from requests and limits to resources is handled by the Polaris SLO framework through annotating the respective fields with \texttt{PolarisType}, which is a TypeScript decorator. This annotation is necessary as the type of any given class is not available during runtime when using TypeScript.
 
@@ -173,30 +173,30 @@ Because of this use of a subtype the framework is also able to automatically tra
 
 The elasticity strategy controllers perform the actions that are required to scale the workload. All elasticity strategy controllers must implement the interface \texttt{Elasticity\-Strategy\-Controller} which requires the implementation of four methods: \texttt{check\-If\-Action\-Needed}, \texttt{execute}, \texttt{on\-Elasticity\-Strategy\-Deleted} and \texttt{on\-Destroy}, with the latter two being optional.
 
-These elasticity strategy controllers are called with the appropriate \texttt{SloOutput} during the SLO control loop \cite{pusztaiNovelMiddlewareEfficiently2021a}.
+These elasticity strategy controllers are called with the appropriate \texttt{SloOutput} by the Polaris framework \cite{pusztaiNovelMiddlewareEfficiently2021a}.
 
 As part of this thesis, three elasticity strategies for K8ssandra have been implemented. One each for vertical and horizontal elasticity and one that combines these two into a diagonal elasticity strategy.
 
 \subsection{Vertical Elasticity Strategy}
 \label{sec:vertical-elasticity}
 
-The vertical elasticity strategy controller is a subtype of \texttt{Elasticity\-Strategy\-Controller}, which is the interface that all controllers responsible for a elasticity strategy must implement. It expects \texttt{K8ssandra\-Vertical\-Slo\-Compliance}, as described in \Cref{sec:compliance-types}, as input. The controller uses the CPU and memory compliance value to scale the current resources accordingly. If the current CPU and memory compliance is the given tolerance range, no scaling is performed by the elasticity strategy controller.
+The vertical elasticity strategy controller is a subtype of \texttt{Elasticity\-Strategy\-Controller}, which is the interface that all controllers responsible for a elasticity strategy must implement. It expects \texttt{K8ssandra\-Vertical\-Slo\-Compliance}, as described in \Cref{sec:compliance-types}, as input. The controller uses the CPU and memory compliance value to scale the current resources accordingly. The method of updating these values is the same that the diagonal elasticity strategy uses, which is listed in \Cref{lst:diagonal-elasticity:updateResources}. If the current CPU and memory compliance is the given tolerance range, no scaling is performed by the elasticity strategy controller.
 
 \subsection{Horizontal Elasticity Strategy}
 \label{sec:horizontal-elasticity}
 
-The horizontal elasticity strategy controller is able to use the \texttt{Slo\-Compliance\-E\-las\-tic\-i\-ty\-Strategy\-Controller\-Base} as its supertype as it expects \texttt{Slo\-Compliance} as input. This controller base is one of the provided common superclasses. Different superclasses exist for different use cases. The superclass targeted at horizontal elasticity strategies could not be used, as it is already too specific as it expects the target to have a \texttt{scale} subresource, which a \texttt{K8ssandraCluster} CRD does not have. This also reduces the amount of boilerplate code and therefore also complies with the ``Don't repeat yourself'' (DRY) principle. Again, the elasticity strategy controller performs a scaling action if the compliance is out of range of the set tolerance.
+The horizontal elasticity strategy controller is able to use the \texttt{Slo\-Compliance\-E\-las\-tic\-i\-ty\-Strategy\-Controller\-Base} as its supertype as it expects \texttt{Slo\-Compliance} as input. This controller base is one of the provided common superclasses. Different superclasses exist for different use cases. Deriving from one of these superclasses reduces the amount of boilerplate code and therefore also complies with the ``Don't repeat yourself'' (DRY) principle. The superclass targeted at horizontal elasticity strategies could not be used, as it is already too specific as it expects the target to have a \texttt{scale} subresource, which a \texttt{K8ssandraCluster} CRD does not have. Again, the elasticity strategy controller performs a scaling action if the compliance is out of range of the set tolerance.
 
-The here implemented version of horizontal scaling \textit{only} performs scale-out. The reason for this is that for scaling-in databases, special considerations have to be made. This is especially true for storage. When, for example, reducing the node count in a Cassandra cluster from 3 to 2, the amount of stored data stays the same, therefore it is possible that the stored data per node increases. This, however, was considered out of scope of this thesis.
+The here implemented version of horizontal scaling \textit{only} performs scale-out. The reason for this is that for scaling-in databases, special considerations have to be made. This is especially true for storage. When, for example, reducing the node count in a Cassandra cluster from three to two, the amount of stored data stays the same, therefore it is possible that the stored data per node increases. This, however, was considered out of scope of this thesis.
 
 \subsection{Diagonal Elasticity Strategy}
 \label{sec:diagonal-elasticity}
 
-The third and last elasticity strategy controller combines the controller described in \Cref{sec:vertical-elasticity,sec:horizontal-elasticity}.
+The third and last elasticity strategy controller combines the controllers described in \Cref{sec:vertical-elasticity,sec:horizontal-elasticity}.
 
 Again, because this controller expects a different input than \texttt{SloCompliance}, \texttt{K8\-ssan\-dra\-Slo\-Compliance} it is not possible to use any of the provided controller bases. Therefore a custom controller base that expects this input has been implemented. The diagonal elasticity controller is a subtype of this newly created controller base.
 
-Two different elasticity dimensions are combined. The elasticity strategy controller is able to autonomously decide which scaling action is best to take. This is possible because of the data that is encapsulated in the \texttt{K8\-ssan\-dra\-Slo\-Compliance}. If the SLO controller determined a violation regarding resource utilization, the elasticity strategy controller will adapt these resources to comply with the target values. On the other hand, if the SLO controller discovers that the K8ssandra cluster experiences significant write load and the SLO is therefore violated the elasticity strategy controller will perform a horizontal scale-out. This will result in a new node to be added to the K8ssandra cluster which subsequently increases the possible throughput. These two processes are listed in \Cref{lst:diagonal-elasticity:updateResources,lst:diagonal-elasticity:updateSize}.
+Two different elasticity dimensions are combined. The elasticity strategy controller is able to autonomously decide which scaling action is best to take. This is possible because of the data that is encapsulated in the \texttt{K8\-ssan\-dra\-Slo\-Compliance}. If the SLO controller determined a violation regarding resource utilization, the elasticity strategy controller will adapt these resources to comply with the target values. The calculation of the adaption is shown between \cref{lst:line:beginScalePercentCalculation} and \cref{lst:line:endScalePercentCalculation} in \Cref{lst:diagonal-elasticity:updateResources}. On the other hand, if the SLO controller discovers that the K8ssandra cluster experiences significant write load and the SLO is therefore violated the elasticity strategy controller will perform a horizontal scale-out, which can be seen between \cref{lst:line:beginUpdateSize} and \cref{lst:line:endUpdateSize} in \Cref{lst:diagonal-elasticity:updateSize}. This will result in a new node to be added to the K8ssandra cluster which subsequently increases the possible throughput. These two processes are listed in \Cref{lst:diagonal-elasticity:updateResources,lst:diagonal-elasticity:updateSize}.
 
 
 \begin{lstlisting}[caption={Method of diagonal elasticity strategy controller which manages vertical scaling},
@@ -223,13 +223,13 @@ private updateResources(
   let memoryScalePercent = 1;
   let cpuScalePercent = 1;
 
-  if (Math.abs(memoryComplianceDiff) > tolerance) {
+  (*\label{lst:line:beginScalePercentCalculation}*)if (Math.abs(memoryComplianceDiff) > tolerance) {
     memoryScalePercent = (100 - memoryComplianceDiff) / 100;
   }
 
   if (Math.abs(cpuComplianceDiff) > tolerance) {
     cpuScalePercent = (100 - cpuComplianceDiff) / 100;
-  }
+  }(*\label{lst:line:endScalePercentCalculation}*)
 
   const resources = k8c.spec.cassandra.resources;
 
@@ -267,12 +267,12 @@ private updateSize(
 
   const tolerance = this.getTolerance(sloOutputParams);
 
-  if (horizontalComplianceDiff > tolerance) {
+  (*\label{lst:line:beginUpdateSize}*)if (horizontalComplianceDiff > tolerance) {
     Logger.log('Triggering horizontal scale up');
     newSize = newSize + 1;
   } else {
     Logger.log('Not triggering horizontal scale up');
-  }
+  }(*\label{lst:line:endUpdateSize}*)
 
   Logger.log('Setting size', newSize);
   k8c.spec.cassandra.datacenters[0].size = newSize;

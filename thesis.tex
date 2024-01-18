@@ -22,6 +22,18 @@
 \usepackage[usenames,dvipsnames,table]{xcolor} % Allows the definition and use of colors. This package has to be included before tikz.
 \usepackage{nag}       % Issues warnings when best practices in writing LaTeX documents are violated.
 \usepackage{todonotes} % Provides tooltip-like todo notes.
+
+\usepackage{listings}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    columns=fullflexible,
+    showstringspaces=false,
+    escapeinside={(*}{*)},
+}
+
 \usepackage{hyperref}  % Enables hyperlinking in the electronic document version. This package has to be included second to last.
 \usepackage[noabbrev,nameinlink]{cleveref}
 \crefname{lstlisting}{listing}{listings}
@@ -52,16 +64,6 @@
         \printurldate}}
     {}}
 \newcommand{\entryneedsurl}[1]{\addtocategory{needsurl}{#1}}
-
-\usepackage{listings}
-\lstset{
-    basicstyle=\footnotesize\ttfamily,
-    numbers=left,
-    numberstyle=\tiny,
-    frame=single,
-    columns=fullflexible,
-    showstringspaces=false
-}
 
 \newcommand{\incfig}[1]{%
     \def\svgwidth{\columnwidth}

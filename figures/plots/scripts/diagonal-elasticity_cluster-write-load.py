@@ -39,7 +39,7 @@ x_writeLoad = pd.Series(
 x_writeLoad = [i * SCRAPE_INTERVAL for i in range(len(x_writeLoad))]
 y_writeLoad = df_writeLoad["avgWriteLoadPerNode"].tolist()
 
-fig, ax = plt.subplots(figsize=(4.5, 3))
+fig, ax = plt.subplots(figsize=(4.5, 2.7))
 
 ax.set_xlabel("Time (s)")
 ax.set_ylabel("Average Write Load")

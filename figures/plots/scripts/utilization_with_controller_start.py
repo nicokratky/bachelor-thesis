@@ -2,11 +2,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import sys
 
 matplotlib.use("pgf")
 
-sns.set()
+sns.set_theme()
 
 CPU_UTILIZATION_DATA = "../data/cpu-utilization-vertical-controller-1node-20min.csv"
 MEMORY_UTILIZATION_DATA = "../data/memory-utilization-vertical-controller-1node-20min.csv"
@@ -30,7 +29,7 @@ y = df["cpu_utilization"].tolist()
 controller_start_x = (CONTROLLER_START - first_timestamp) / \
     1000 / SCRAPE_INTERVAL
 
-fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(5.6, 4))
+fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(5.6, 3.5))
 
 axs[0].set_ylim((-0.1, 1.1))
 

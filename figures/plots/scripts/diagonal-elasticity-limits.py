@@ -2,7 +2,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import sys
 
 matplotlib.use("pgf")
 
@@ -11,7 +10,7 @@ MEMORY_LIMITS_DATA = "../data/diagonal-elasticity-limits-memory.csv"
 
 OUTPUT_FILENAME = "../diagonal-elasticity-limits.pgf"
 
-sns.set()
+sns.set_theme()
 
 SCRAPE_INTERVAL = 5
 
@@ -37,7 +36,7 @@ y = [val * 1000 for val in y]  # *1000 to convert to milliCPU
 scaling_event_x = [(timestamp - first_timestamp)
                    for timestamp in scaling_event_timestamps]
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(5.6, 4))
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(5.6, 3.5))
 
 for index, value in enumerate(scaling_event_x):
     ax1.axvline(
