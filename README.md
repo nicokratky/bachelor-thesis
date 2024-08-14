@@ -8,6 +8,6 @@ Cloud computing has risen immensly in popularity over the recent years. Properti
 
 ## License
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Cc_by-nc_icon.svg/2880px-Cc_by-nc_icon.svg.png" width=200>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/CC_BY-SA_icon.svg/2560px-CC_BY-SA_icon.svg.png" width=200>
 
 This work is licensed under CC BY-SA 4.0. To view a copy of this license, visit [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/) or see [LICENSE](LICENSE).
